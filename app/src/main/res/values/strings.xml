@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Ishido</string>
+    <string name="text_random_toggle">RANDOM TILE MODE</string>
+    <string name="text_tile_preview">Tile Preview</string>
+    <string name="text_generate">SELECT TILE</string>
+    <string name="text_score">SCORE: </string>
+    <string name="text_next">NEXT</string>
+    <string-array name="tile_symbols">
+        <item>"+"</item>
+        <item>"#"</item>
+        <item>"%"</item>
+        <item>"!"</item>
+        <item>"?"</item>
+        <item>"@"</item>
+    </string-array>
+    <string-array name="tile_colors">
+        <item>"white"</item>
+        <item>"blue"</item>
+        <item>"black"</item>
+        <item>"yellow"</item>
+        <item>"magenta"</item>
+        <item>"red"</item>
+    </string-array>
+</resources>
