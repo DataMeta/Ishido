@@ -39,11 +39,13 @@ public class MainActivity extends AppCompatActivity
     Board board;
     Deck deck;
     Player computer;
+    Player human;
     Search search = new Search();
 
     Button tilePreviewButton;
 
     TextView scoreKeep;
+    TextView scoreKeepHuman;
 
     Switch modeSelectSwitch;
 
@@ -64,6 +66,8 @@ public class MainActivity extends AppCompatActivity
     int colIndex;
 
     Boolean tileFound;
+    Boolean isNewGame;
+    Boolean isHumanTurn;
 
     Button[][] BoardView = new Button[8][12];
 
@@ -71,6 +75,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(edu.ramapo.dmelniko.ishido.R.layout.activity_main);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+        {
+            isNewGame = extras.getBoolean("isNewGame");
+        }
 
         BoardView[0][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button1);
         BoardView[0][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button2);
@@ -194,10 +204,12 @@ public class MainActivity extends AppCompatActivity
         tilePreviewButton = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button_tile_preview);
 
         scoreKeep = (TextView) findViewById(edu.ramapo.dmelniko.ishido.R.id.score_keep);
-        scoreKeep.setText("SCORE: 0");
+        scoreKeep.setText("SCORE: ");
+        scoreKeepHuman = (TextView) findViewById(edu.ramapo.dmelniko.ishido.R.id.score_keep_human);
+        scoreKeepHuman.setText("SCORE: ");
 
         // Spinner to select different search algorithms
-        searchSpinner = (Spinner) findViewById(edu.ramapo.dmelniko.ishido.R.id.spinner_search);
+        /*searchSpinner = (Spinner) findViewById(edu.ramapo.dmelniko.ishido.R.id.spinner_search);
 
         final List<String> searchList = new ArrayList<>();
         searchList.add("DEPTH-FIRST");
@@ -215,17 +227,28 @@ public class MainActivity extends AppCompatActivity
 
         // Apply the adapters to the spinners
         searchSpinner.setPrompt("SEARCH ALGORITHMS");
-        searchSpinner.setAdapter(searchDataAdapter);
+        searchSpinner.setAdapter(searchDataAdapter);*/
 
-        try
+        if (isNewGame)
         {
-            serialFile = readData();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
+            board = new Board();
+            deck = new Deck();
+            computer = new Player();
+            human = new Player();
         }
-        parseData();
-        loadData();
+        else
+        {
+            try
+            {
+                serialFile = readData();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            parseData();
+            loadData();
+        }
+        isHumanTurn = true;
         deck.readyTile(board);
         updateBoardView();
     }
@@ -271,6 +294,24 @@ public class MainActivity extends AppCompatActivity
         board = new Board(boardData);
         deck = new Deck(deckData);
         computer = new Player(scoreData);
+        human = new Player(); // Temp
+    }
+
+    // Runs the selected search algorithm
+    // Takes the button view as a parameter
+    // Returns nothing
+    public void aiTurn(View view)
+    {
+        if(deck.tileDeck.isEmpty() && board.tilePreview.getSymbol().equals(""))
+        {
+            Toast.makeText(MainActivity.this, "OUT OF TILES", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            search.bestFirst(board, deck, computer);
+            updateBoardView();
+            isHumanTurn = true;
+        }
     }
 
     // Runs the selected search algorithm
@@ -346,7 +387,7 @@ public class MainActivity extends AppCompatActivity
     // Nothing is returned
     public void updateBoardView()
     {
-        String scoreMsg = "SCORE: ";
+        String scoreMsg;
 
         tilePreviewButton.setText(board.tilePreview.getSymbol());
         tilePreviewButton.setTextColor(Color.parseColor(board.tilePreview.getColor()));
@@ -370,14 +411,17 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }
-        scoreMsg = scoreMsg + (Integer.toString(computer.getScore()));
+        scoreMsg = "COMPUTER SCORE: " + (Integer.toString(computer.getScore()));
         scoreKeep.setText(scoreMsg);
+        scoreMsg = "HUMAN SCORE: " + (Integer.toString(human.getScore()));
+        scoreKeepHuman.setText(scoreMsg);
     }
 
     // Generates a random color and symbol for the tile that is to be placed
     // or accepts the user selections from the drop-down menus
     // A view object is passed, particularly from the Select Tile button
     // Nothing is returned
+    // Deprecated for current project state
     public void selectTile(View view)
     {
         // Check if a tile is already on standby
@@ -493,9 +537,9 @@ public class MainActivity extends AppCompatActivity
     // Nothing is returned
     public void onClick(View view)
     {
-        /*if(board.tilePreview.getColor() == "green" && board.tilePreview.getSymbol() == "")
+        if(!isHumanTurn)
         {
-            Toast.makeText(MainActivity.this, "Please select a tile to place", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "It is no longer your turn", Toast.LENGTH_LONG).show();
         }
         else
         {
@@ -510,25 +554,23 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
             }
-
-            //Check for move validity
+            //Check move for validity
             if (board.isMoveValid(rowIndex, colIndex))
             {
                 // Place the tile on the board and clear tile selection
                 board.makeMove(rowIndex, colIndex);
-
                 // Set score for move just made
-                computer.setScore(board.calcMovePointVal(rowIndex, colIndex));
-
-                // Update the board view
-                BoardView[rowIndex][colIndex].setClickable(false);
+                human.setScore(board.calcMovePointVal(rowIndex, colIndex));
+                // Ready next tile and update the board view
+                deck.readyTile(board);
                 updateBoardView();
+                isHumanTurn = false;
             }
             else
             {
-                Toast.makeText(MainActivity.this, "Invalid move. Please try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Move is invalid or you are trying to cover an existing tile. Please try again", Toast.LENGTH_LONG).show();
             }
-        }*/
+        }
     }
 }
 

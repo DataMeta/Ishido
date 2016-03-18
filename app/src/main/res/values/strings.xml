@@ -5,6 +5,10 @@
     <string name="text_generate">SELECT TILE</string>
     <string name="text_score">SCORE: </string>
     <string name="text_next">NEXT</string>
+    <string name="text_load">LOAD GAME</string>
+    <string name="text_save">SAVE GAME</string>
+    <string name="text_new">NEW GAME</string>
+    <string name="main_menu">ISHIDO\nMAIN MENU</string>
     <string-array name="tile_symbols">
         <item>"+"</item>
         <item>"#"</item>
@@ -21,4 +25,5 @@
         <item>"magenta"</item>
         <item>"red"</item>
     </string-array>
+    <string name="title_activity_startup">StartupActivity</string>
 </resources>

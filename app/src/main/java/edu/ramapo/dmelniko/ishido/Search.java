@@ -141,7 +141,7 @@ public class Search
             score = moveList.get(bestMoveIndex).getScore();
 
             board.makeMove(rowIndex, colIndex);
-            board.tileBoard[rowIndex][colIndex].setBlinkable(true);
+            //board.tileBoard[rowIndex][colIndex].setBlinkable(true);
             computer.setScore(score);
             if (!deck.tileDeck.isEmpty())
             {

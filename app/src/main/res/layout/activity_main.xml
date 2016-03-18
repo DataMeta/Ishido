@@ -924,19 +924,16 @@
             android:textAlignment="gravity"
             android:gravity="center"
             android:clickable="false"
-            android:layout_marginLeft="52dp"
-            android:layout_marginStart="52dp"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/score_keep"
-            android:layout_toEndOf="@+id/score_keep" />
+            android:layout_centerHorizontal="true" />
 
         <Button
             android:id="@+id/button_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_next"
+            android:text="End turn"
             android:textSize="7pt"
-            android:onClick="nextTile"
+            android:onClick="aiTurn"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/button_tile_preview"
             android:layout_toEndOf="@+id/button_tile_preview" />
@@ -944,20 +941,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="32dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text=""
             android:id="@+id/score_keep"
             android:layout_alignParentTop="true"
             android:layout_marginTop="55dp" />
 
-        <Spinner
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner_search"
-            android:layout_below="@+id/button_tile_preview"
-            android:layout_alignLeft="@+id/button_tile_preview"
-            android:layout_alignStart="@+id/button_tile_preview" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text=""
+            android:id="@+id/score_keep_human"
+            android:layout_below="@+id/score_keep"
+            android:layout_alignLeft="@+id/score_keep"
+            android:layout_alignStart="@+id/score_keep" />
 
     </RelativeLayout>
 </LinearLayout>
