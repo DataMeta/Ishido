@@ -17,6 +17,11 @@ public class Search
         depth = 0;
     }
 
+    public void setDepthCutoff(int depthCutoff)
+    {
+        this.depthCutoff = depthCutoff;
+    }
+
     // Generates a list of moves without a score heuristic value
     // Accepts a Board object
     // Returns nothing
@@ -143,7 +148,7 @@ public class Search
         return node.getCompScore() - node.getHumanScore();
     }
 
-    public Node min(Node node, Deck deck)
+    public Node min(Node node)
     {
         Move bestMove = new Move();
         bestMove.setVals(node.moveList.get(0));
@@ -154,11 +159,11 @@ public class Search
                 bestMove.setVals(move);
             }
         }
-        node.bestMove.setVals(bestMove);
+        node.setBestMove(bestMove);
         return node;
     }
 
-    public Node max(Node node, Deck deck)
+    public Node max(Node node)
     {
         Move bestMove = new Move();
         bestMove.setVals(node.moveList.get(0));
@@ -169,19 +174,19 @@ public class Search
                 bestMove.setVals(move);
             }
         }
-        node.bestMove.setVals(bestMove);
+        node.setBestMove(bestMove);
         return node;
     }
 
     // Implements the MiniMax algorithm
     public Node miniMax(Node parentNode, Deck deck, String turn, int depth)
     {
-        Node node = new Node(parentNode);
+        Node node = new Node(parentNode, true);
         node.genMoveList(deck, deck.tileDeck.size() - depth);
         if(depth == depthCutoff || node.moveList.isEmpty())
         {
-            parentNode.setBestValue(evaluate(parentNode));
-            return parentNode;
+            node.bestMove.setHeuristicVal(evaluate(parentNode));
+            return node;
         }
         else
         {
@@ -194,12 +199,12 @@ public class Search
                     node.boardState.simulateMove(move.getRowIndex(), move.getColIndex(), deck, deck.tileDeck.size() - (depth));
                     node.updateCompScore(node.boardState.calcMovePointVal(move.getRowIndex(), move.getColIndex()));
                     // Set the move's heuristic value to the best possible value that can result from it
-                    move.setHeuristicVal(miniMax(node, deck, "Human", depth + 1).bestValue);
+                    move.setHeuristicVal(miniMax(node, deck, "Human", depth + 1).getBestMove().getHeuristicVal());
                     // Revert the previous board state and score
                     node.boardState.undoMove(move.getRowIndex(), move.getColIndex());
                     node.revertCompScore(node.boardState.calcMovePointVal(move.getRowIndex(), move.getColIndex()));
                 }
-                return new Node(max(node, deck));
+                return max(node);
             }
             // Player turn
             else
@@ -210,12 +215,12 @@ public class Search
                     node.boardState.simulateMove(move.getRowIndex(), move.getColIndex(), deck, deck.tileDeck.size() - (depth));
                     node.updateCompScore(node.boardState.calcMovePointVal(move.getRowIndex(), move.getColIndex()));
                     // Set the move's heuristic value to the best possible value that can result from it
-                    move.setHeuristicVal(miniMax(node, deck, "Computer", depth + 1).bestValue);
+                    move.setHeuristicVal(miniMax(node, deck, "Computer", depth + 1).getBestMove().getHeuristicVal());
                     // Revert the previous board state and score
                     node.boardState.undoMove(move.getRowIndex(), move.getColIndex());
                     node.revertCompScore(node.boardState.calcMovePointVal(move.getRowIndex(), move.getColIndex()));
                 }
-                return new Node(min(node, deck));
+                return min(node);
             }
         }
     }
@@ -223,10 +228,13 @@ public class Search
     public void miniMaxWrapper(Board board, Player human, Player computer, Deck deck)
     {
         Node rootNode = new Node(board, human, computer);
-        Node solutionNode = new Node(miniMax(rootNode, deck, "Computer", depth + 1));
+        Node solutionNode = new Node(miniMax(rootNode, deck, "Computer", depth + 1), true);
         board.makeMove(solutionNode.bestMove.getRowIndex(), solutionNode.bestMove.getColIndex());
         computer.setScore(board.calcMovePointVal(solutionNode.bestMove.getRowIndex(), solutionNode.bestMove.getColIndex()));
-        deck.readyTile(board);
+        if (!deck.tileDeck.isEmpty())
+        {
+            deck.readyTile(board);
+        }
     }
 
     public void depthFirst(Board board, Deck deck, Player computer)

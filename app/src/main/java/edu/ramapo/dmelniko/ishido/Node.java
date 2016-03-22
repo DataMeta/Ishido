@@ -26,12 +26,20 @@ public class Node
         boardState = new Board(parentNode.boardState);
         moveList = new ArrayList<>();
         bestMove = new Move();
+        bestMove.setHeuristicVal(parentNode.bestMove.getHeuristicVal());
+        humanScore = parentNode.getHumanScore();
+        compScore = parentNode.getCompScore();
+        bestValue = parentNode.getBestValue();
+    }
+    Node(Node parentNode, Boolean copyBestMove)
+    {
+        boardState = new Board(parentNode.boardState);
+        moveList = new ArrayList<>();
+        bestMove = new Move();
         bestMove.setVals(parentNode.bestMove);
         humanScore = parentNode.getHumanScore();
         compScore = parentNode.getCompScore();
         bestValue = parentNode.getBestValue();
-        //rowVal = parentNode.rowVal;
-        //colVal = parentNode.colVal;
     }
 
     // Generates a list of moves
@@ -49,8 +57,8 @@ public class Node
                 {
                     deck.unReadyTile(boardState);
                     score = boardState.simulateMove(i, j, deckIndex, boardState, deck);
-                    Move Move = new Move(i, j, score);
-                    moveList.add(Move);
+                    Move move = new Move(i, j, score);
+                    this.moveList.add(move);
                 } else
                 {
                     deck.unReadyTile(boardState);
@@ -59,10 +67,15 @@ public class Node
         }
     }
 
-    public void setBestMove(Move bestMove)
+    public void setBestMove(Move bestMove) // use this
     {
         this.bestMove.setVals(bestMove);
     }
+    public Move getBestMove() // use this
+    {
+        return bestMove;
+    }
+
     public void setBestValue(int value)
     {
         this.bestValue = value;

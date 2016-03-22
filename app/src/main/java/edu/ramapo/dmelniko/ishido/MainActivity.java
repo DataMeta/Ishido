@@ -1,9 +1,9 @@
-/***********************************************************
-* Name:  Daniel Melnikov                                   *
-* Project:  Project 1 - Ishido for One                     *
-* Class:  Artificial Intelligence - CMPS 331               *
-* Date:  2/6/16                                            *
-************************************************************/
+/****************************************************************
+* Name:  Daniel Melnikov                                        *
+* Project:  Project 3 - Ishido with MiniMax & AlphaBeta Pruning *
+* Class:  Artificial Intelligence - CMPS 331                    *
+* Date:  2/6/16                                                 *
+*****************************************************************/
 
 
 package edu.ramapo.dmelniko.ishido;
@@ -56,7 +56,7 @@ public class MainActivity extends Activity
     String deckData;
     String computerScoreData;
     String humanScoreData;
-    String currentPlayerData;
+    String nextPlayerData;
     String firstPlayer;
 
     String tileColorID;
@@ -326,7 +326,7 @@ public class MainActivity extends Activity
             loadData();
         }
         deck.readyTile(board);
-        updateboardView();
+        updateBoardView();
     }
 
     // Reads from the file asset
@@ -338,7 +338,7 @@ public class MainActivity extends Activity
         InputStream input2 = getAssets().open("case2.txt");
         InputStream input3 = getAssets().open("case3.txt");
         InputStream input4 = getAssets().open("case4.txt");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input3));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input2));
         String output = new String();
         String line;
         while ((line = reader.readLine()) != null) {
@@ -353,14 +353,14 @@ public class MainActivity extends Activity
     // Returns nothing
     public void parseData()
     {
-        String delim = "Layout:|Stock:|Computer Score:|Human Score:|Next Player:";
+        String delim = "Layout:|Stock:|Human Score:|Computer Score:|Next Player:";
         String[] tokens = serialFile.split(delim);
 
         boardData = tokens[1];
         deckData = tokens[2];
-        computerScoreData = tokens[3];
-        humanScoreData = tokens[4];
-        currentPlayerData = tokens[5];
+        humanScoreData = tokens[3];
+        computerScoreData = tokens[4];
+        nextPlayerData = tokens[5];
     }
 
     // Initializes the board, deck, and computer objects
@@ -373,7 +373,7 @@ public class MainActivity extends Activity
         deck = new Deck(deckData);
         computer = new Player(computerScoreData);
         human = new Player(humanScoreData);
-        board.currentPlayer = currentPlayerData;
+        board.currentPlayer = nextPlayerData;
     }
 
     // Runs the selected search algorithm
@@ -381,7 +381,7 @@ public class MainActivity extends Activity
     // Returns nothing
     public void aiTurn(View view)
     {
-        search.depthCutoff = 1;
+        search.setDepthCutoff(3);
         // Check if it is the player's turn
         if(board.currentPlayer.equals("Human"))
         {
@@ -396,7 +396,7 @@ public class MainActivity extends Activity
             else
             {
                 search.miniMaxWrapper(board, human, computer, deck);
-                updateboardView();
+                updateBoardView();
                 board.currentPlayer = "Human";
             }
         }
@@ -419,7 +419,7 @@ public class MainActivity extends Activity
                 else
                 {
                     search.depthFirst(board, deck, computer);
-                    updateboardView();
+                    updateBoardView();
                 }
                 break;
             case "BREADTH-FIRST":
@@ -437,7 +437,7 @@ public class MainActivity extends Activity
                         if(search.unscoredMoveList.size() > 0)
                         {
                             search.breadthFirst(board, deck, computer);
-                            updateboardView();
+                            updateBoardView();
                         }
                         //Toast.makeText(MainActivity.this, "OUT OF MOVES", Toast.LENGTH_SHORT).show();
                     }
@@ -446,7 +446,7 @@ public class MainActivity extends Activity
                         if(search.unscoredMoveList.size() > 0)
                         {
                             search.breadthFirst(board, deck, computer);
-                            updateboardView();
+                            updateBoardView();
                         }
                         //Toast.makeText(MainActivity.this, "OUT OF MOVES", Toast.LENGTH_SHORT).show();
                     }
@@ -460,12 +460,12 @@ public class MainActivity extends Activity
                 else
                 {
                     search.bestFirst(board, deck, computer);
-                    updateboardView();
+                    updateBoardView();
                 }
                 break;
             case "BRANCH&BOUND":
                 //search.branchAndBound(board, deck, computer);
-                updateboardView();
+                updateBoardView();
                 break;
         }
     }
@@ -473,7 +473,7 @@ public class MainActivity extends Activity
     // Updates all visual elements
     // No parameters are passed
     // Nothing is returned
-    public void updateboardView()
+    public void updateBoardView()
     {
         String scoreMsg;
 
@@ -633,7 +633,7 @@ public class MainActivity extends Activity
                     break;
             }
         }
-        updateboardView();
+        updateBoardView();
     }
 
     // Handles the user's actions on the UI
@@ -675,7 +675,7 @@ public class MainActivity extends Activity
                     human.setScore(board.calcMovePointVal(rowIndex, colIndex));
                     // Ready next tile and update the board view
                     deck.readyTile(board);
-                    updateboardView();
+                    updateBoardView();
                     board.currentPlayer = "Computer";
                 }
                 else
