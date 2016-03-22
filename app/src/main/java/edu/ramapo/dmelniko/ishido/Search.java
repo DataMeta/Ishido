@@ -145,26 +145,37 @@ public class Search
 
     public Node min(Node node, Deck deck)
     {
+        Move bestMove = new Move();
+        bestMove.setVals(node.moveList.get(0));
         for (Move move : node.moveList)
         {
-
+            if(bestMove.getHeuristicVal() > move.getHeuristicVal())
+            {
+                bestMove.setVals(move);
+            }
         }
+        node.bestMove.setVals(bestMove);
         return node;
     }
 
     public Node max(Node node, Deck deck)
     {
+        Move bestMove = new Move();
+        bestMove.setVals(node.moveList.get(0));
         for (Move move : node.moveList)
         {
-
+            if(bestMove.getHeuristicVal() < move.getHeuristicVal())
+            {
+                bestMove.setVals(move);
+            }
         }
+        node.bestMove.setVals(bestMove);
         return node;
     }
 
     // Implements the MiniMax algorithm
     public Node miniMax(Node parentNode, Deck deck, String turn, int depth)
     {
-        //Vector<Location> generatedLocations=new Vector<>(model.generateAvailableLocations(deckIndex, turn, parent));
         Node node = new Node(parentNode);
         node.genMoveList(deck, deck.tileDeck.size() - depth);
         if(depth == depthCutoff || node.moveList.isEmpty())
@@ -188,8 +199,7 @@ public class Search
                     node.boardState.undoMove(move.getRowIndex(), move.getColIndex());
                     node.revertCompScore(node.boardState.calcMovePointVal(move.getRowIndex(), move.getColIndex()));
                 }
-                Node maxNode = new Node(max(node, deck));
-                return maxNode;
+                return new Node(max(node, deck));
             }
             // Player turn
             else
@@ -205,8 +215,7 @@ public class Search
                     node.boardState.undoMove(move.getRowIndex(), move.getColIndex());
                     node.revertCompScore(node.boardState.calcMovePointVal(move.getRowIndex(), move.getColIndex()));
                 }
-                Node minNode = new Node(min(node, deck));
-                return minNode;
+                return new Node(min(node, deck));
             }
         }
     }
@@ -215,8 +224,8 @@ public class Search
     {
         Node rootNode = new Node(board, human, computer);
         Node solutionNode = new Node(miniMax(rootNode, deck, "Computer", depth + 1));
-        board.makeMove(solutionNode.rowVal, solutionNode.colVal);
-        computer.setScore(board.calcMovePointVal(solutionNode.rowVal, solutionNode.colVal));
+        board.makeMove(solutionNode.bestMove.getRowIndex(), solutionNode.bestMove.getColIndex());
+        computer.setScore(board.calcMovePointVal(solutionNode.bestMove.getRowIndex(), solutionNode.bestMove.getColIndex()));
         deck.readyTile(board);
     }
 

@@ -25,6 +25,7 @@ public class Node
     {
         boardState = new Board(parentNode.boardState);
         moveList = new ArrayList<>();
+        bestMove = new Move();
         bestMove.setVals(parentNode.bestMove);
         humanScore = parentNode.getHumanScore();
         compScore = parentNode.getCompScore();
@@ -58,6 +59,10 @@ public class Node
         }
     }
 
+    public void setBestMove(Move bestMove)
+    {
+        this.bestMove.setVals(bestMove);
+    }
     public void setBestValue(int value)
     {
         this.bestValue = value;

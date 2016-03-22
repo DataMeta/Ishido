@@ -4,7 +4,7 @@ public class Board
 {
     public Tile tilePreview;
     public Tile[][] tileBoard;
-    String nextPlayer;
+    String currentPlayer;
 
     //Default constructor
     public Board()

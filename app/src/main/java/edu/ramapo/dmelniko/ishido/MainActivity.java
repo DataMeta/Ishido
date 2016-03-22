@@ -56,7 +56,7 @@ public class MainActivity extends Activity
     String deckData;
     String computerScoreData;
     String humanScoreData;
-    String nextPlayerData;
+    String currentPlayerData;
     String firstPlayer;
 
     String tileColorID;
@@ -311,7 +311,7 @@ public class MainActivity extends Activity
             deck = new Deck();
             computer = new Player();
             human = new Player();
-            board.nextPlayer = firstPlayer;
+            board.currentPlayer = firstPlayer;
         }
         else
         {
@@ -360,7 +360,7 @@ public class MainActivity extends Activity
         deckData = tokens[2];
         computerScoreData = tokens[3];
         humanScoreData = tokens[4];
-        nextPlayerData = tokens[5];
+        currentPlayerData = tokens[5];
     }
 
     // Initializes the board, deck, and computer objects
@@ -373,7 +373,7 @@ public class MainActivity extends Activity
         deck = new Deck(deckData);
         computer = new Player(computerScoreData);
         human = new Player(humanScoreData);
-        board.nextPlayer = nextPlayerData;
+        board.currentPlayer = currentPlayerData;
     }
 
     // Runs the selected search algorithm
@@ -381,9 +381,9 @@ public class MainActivity extends Activity
     // Returns nothing
     public void aiTurn(View view)
     {
-        search.depthCutoff = 2;
+        search.depthCutoff = 1;
         // Check if it is the player's turn
-        if(board.nextPlayer.equals("Human"))
+        if(board.currentPlayer.equals("Human"))
         {
             Toast.makeText(MainActivity.this, "It is not currently the computer's turn", Toast.LENGTH_LONG).show();
         }
@@ -395,9 +395,9 @@ public class MainActivity extends Activity
             }
             else
             {
-                search.miniMax2(board, human, computer, deck);
+                search.miniMaxWrapper(board, human, computer, deck);
                 updateboardView();
-                board.nextPlayer = "Human";
+                board.currentPlayer = "Human";
             }
         }
     }
@@ -464,7 +464,7 @@ public class MainActivity extends Activity
                 }
                 break;
             case "BRANCH&BOUND":
-                search.branchAndBound(board, deck, computer);
+                //search.branchAndBound(board, deck, computer);
                 updateboardView();
                 break;
         }
@@ -649,7 +649,7 @@ public class MainActivity extends Activity
         else
         {
             // Check that it is the player's turn
-            if(board.nextPlayer.equals("Computer"))
+            if(board.currentPlayer.equals("Computer"))
             {
                 Toast.makeText(MainActivity.this, "You have already made your move or it is no longer your turn", Toast.LENGTH_LONG).show();
             }
@@ -676,7 +676,7 @@ public class MainActivity extends Activity
                     // Ready next tile and update the board view
                     deck.readyTile(board);
                     updateboardView();
-                    board.nextPlayer = "Computer";
+                    board.currentPlayer = "Computer";
                 }
                 else
                 {
