@@ -8,9 +8,9 @@
 
 package edu.ramapo.dmelniko.ishido;
 
+import android.app.Activity;
 import android.content.res.AssetManager;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -34,7 +34,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends Activity
 {
     Board board;
     Deck deck;
@@ -54,7 +54,10 @@ public class MainActivity extends AppCompatActivity
     String serialFile;
     String boardData;
     String deckData;
-    String scoreData;
+    String computerScoreData;
+    String humanScoreData;
+    String nextPlayerData;
+    String firstPlayer;
 
     String tileColorID;
     String tileSymbolID;
@@ -67,9 +70,9 @@ public class MainActivity extends AppCompatActivity
 
     Boolean tileFound;
     Boolean isNewGame;
-    Boolean isHumanTurn;
 
-    Button[][] BoardView = new Button[8][12];
+    TextView[] stockView = new TextView[72];
+    Button[][] boardView = new Button[8][12];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,112 +83,185 @@ public class MainActivity extends AppCompatActivity
         if (extras != null)
         {
             isNewGame = extras.getBoolean("isNewGame");
+            firstPlayer = extras.getString("firstPlayer");
         }
 
-        BoardView[0][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button1);
-        BoardView[0][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button2);
-        BoardView[0][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button3);
-        BoardView[0][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button4);
-        BoardView[0][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button5);
-        BoardView[0][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button6);
-        BoardView[0][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button7);
-        BoardView[0][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button8);
-        BoardView[0][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button9);
-        BoardView[0][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button10);
-        BoardView[0][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button11);
-        BoardView[0][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button12);
+        boardView[0][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button1);
+        boardView[0][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button2);
+        boardView[0][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button3);
+        boardView[0][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button4);
+        boardView[0][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button5);
+        boardView[0][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button6);
+        boardView[0][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button7);
+        boardView[0][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button8);
+        boardView[0][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button9);
+        boardView[0][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button10);
+        boardView[0][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button11);
+        boardView[0][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button12);
 
-        BoardView[1][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button13);
-        BoardView[1][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button14);
-        BoardView[1][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button15);
-        BoardView[1][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button16);
-        BoardView[1][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button17);
-        BoardView[1][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button18);
-        BoardView[1][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button19);
-        BoardView[1][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button20);
-        BoardView[1][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button21);
-        BoardView[1][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button22);
-        BoardView[1][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button23);
-        BoardView[1][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button24);
+        boardView[1][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button13);
+        boardView[1][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button14);
+        boardView[1][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button15);
+        boardView[1][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button16);
+        boardView[1][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button17);
+        boardView[1][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button18);
+        boardView[1][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button19);
+        boardView[1][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button20);
+        boardView[1][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button21);
+        boardView[1][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button22);
+        boardView[1][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button23);
+        boardView[1][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button24);
 
-        BoardView[2][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button25);
-        BoardView[2][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button26);
-        BoardView[2][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button27);
-        BoardView[2][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button28);
-        BoardView[2][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button29);
-        BoardView[2][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button30);
-        BoardView[2][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button31);
-        BoardView[2][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button32);
-        BoardView[2][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button33);
-        BoardView[2][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button34);
-        BoardView[2][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button35);
-        BoardView[2][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button36);
+        boardView[2][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button25);
+        boardView[2][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button26);
+        boardView[2][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button27);
+        boardView[2][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button28);
+        boardView[2][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button29);
+        boardView[2][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button30);
+        boardView[2][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button31);
+        boardView[2][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button32);
+        boardView[2][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button33);
+        boardView[2][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button34);
+        boardView[2][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button35);
+        boardView[2][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button36);
 
-        BoardView[3][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button37);
-        BoardView[3][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button38);
-        BoardView[3][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button39);
-        BoardView[3][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button40);
-        BoardView[3][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button41);
-        BoardView[3][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button42);
-        BoardView[3][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button43);
-        BoardView[3][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button44);
-        BoardView[3][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button45);
-        BoardView[3][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button46);
-        BoardView[3][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button47);
-        BoardView[3][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button48);
+        boardView[3][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button37);
+        boardView[3][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button38);
+        boardView[3][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button39);
+        boardView[3][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button40);
+        boardView[3][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button41);
+        boardView[3][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button42);
+        boardView[3][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button43);
+        boardView[3][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button44);
+        boardView[3][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button45);
+        boardView[3][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button46);
+        boardView[3][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button47);
+        boardView[3][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button48);
 
-        BoardView[4][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button49);
-        BoardView[4][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button50);
-        BoardView[4][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button51);
-        BoardView[4][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button52);
-        BoardView[4][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button53);
-        BoardView[4][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button54);
-        BoardView[4][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button55);
-        BoardView[4][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button56);
-        BoardView[4][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button57);
-        BoardView[4][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button58);
-        BoardView[4][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button59);
-        BoardView[4][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button60);
+        boardView[4][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button49);
+        boardView[4][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button50);
+        boardView[4][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button51);
+        boardView[4][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button52);
+        boardView[4][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button53);
+        boardView[4][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button54);
+        boardView[4][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button55);
+        boardView[4][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button56);
+        boardView[4][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button57);
+        boardView[4][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button58);
+        boardView[4][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button59);
+        boardView[4][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button60);
 
-        BoardView[5][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button61);
-        BoardView[5][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button62);
-        BoardView[5][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button63);
-        BoardView[5][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button64);
-        BoardView[5][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button65);
-        BoardView[5][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button66);
-        BoardView[5][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button67);
-        BoardView[5][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button68);
-        BoardView[5][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button69);
-        BoardView[5][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button70);
-        BoardView[5][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button71);
-        BoardView[5][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button72);
+        boardView[5][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button61);
+        boardView[5][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button62);
+        boardView[5][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button63);
+        boardView[5][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button64);
+        boardView[5][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button65);
+        boardView[5][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button66);
+        boardView[5][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button67);
+        boardView[5][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button68);
+        boardView[5][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button69);
+        boardView[5][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button70);
+        boardView[5][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button71);
+        boardView[5][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button72);
 
-        BoardView[6][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button73);
-        BoardView[6][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button74);
-        BoardView[6][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button75);
-        BoardView[6][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button76);
-        BoardView[6][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button77);
-        BoardView[6][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button78);
-        BoardView[6][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button79);
-        BoardView[6][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button80);
-        BoardView[6][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button81);
-        BoardView[6][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button82);
-        BoardView[6][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button83);
-        BoardView[6][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button84);
+        boardView[6][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button73);
+        boardView[6][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button74);
+        boardView[6][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button75);
+        boardView[6][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button76);
+        boardView[6][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button77);
+        boardView[6][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button78);
+        boardView[6][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button79);
+        boardView[6][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button80);
+        boardView[6][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button81);
+        boardView[6][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button82);
+        boardView[6][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button83);
+        boardView[6][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button84);
 
-        BoardView[7][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button85);
-        BoardView[7][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button86);
-        BoardView[7][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button87);
-        BoardView[7][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button88);
-        BoardView[7][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button89);
-        BoardView[7][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button90);
-        BoardView[7][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button91);
-        BoardView[7][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button92);
-        BoardView[7][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button93);
-        BoardView[7][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button94);
-        BoardView[7][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button95);
-        BoardView[7][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button96);
+        boardView[7][0] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button85);
+        boardView[7][1] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button86);
+        boardView[7][2] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button87);
+        boardView[7][3] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button88);
+        boardView[7][4] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button89);
+        boardView[7][5] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button90);
+        boardView[7][6] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button91);
+        boardView[7][7] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button92);
+        boardView[7][8] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button93);
+        boardView[7][9] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button94);
+        boardView[7][10] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button95);
+        boardView[7][11] = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button96);
 
+        stockView[71] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView1);
+        stockView[70] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView2);
+        stockView[69] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView3);
+        stockView[68] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView4);
+        stockView[67] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView5);
+        stockView[66] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView6);
+        stockView[65] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView7);
+        stockView[64] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView8);
+        stockView[63] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView9);
+        stockView[62] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView10);
+        stockView[61] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView11);
+        stockView[60] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView12);
+        stockView[59] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView13);
+        stockView[58] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView14);
+        stockView[57] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView15);
+        stockView[56] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView16);
+        stockView[55] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView17);
+        stockView[54] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView18);
+        stockView[53] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView19);
+        stockView[52] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView20);
+        stockView[51] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView21);
+        stockView[50] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView22);
+        stockView[49] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView23);
+        stockView[48] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView24);
+        stockView[47] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView25);
+        stockView[46] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView26);
+        stockView[45] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView27);
+        stockView[44] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView28);
+        stockView[43] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView29);
+        stockView[42] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView30);
+        stockView[41] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView31);
+        stockView[40] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView32);
+        stockView[39] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView33);
+        stockView[38] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView34);
+        stockView[37] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView35);
+        stockView[36] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView36);
+        stockView[35] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView37);
+        stockView[34] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView38);
+        stockView[33] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView39);
+        stockView[32] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView40);
+        stockView[31] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView41);
+        stockView[30] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView42);
+        stockView[29] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView43);
+        stockView[28] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView44);
+        stockView[27] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView45);
+        stockView[26] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView46);
+        stockView[25] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView47);
+        stockView[24] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView48);
+        stockView[23] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView49);
+        stockView[22] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView50);
+        stockView[21] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView51);
+        stockView[20] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView52);
+        stockView[19] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView53);
+        stockView[18] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView54);
+        stockView[17] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView55);
+        stockView[16] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView56);
+        stockView[15] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView57);
+        stockView[14] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView58);
+        stockView[13] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView59);
+        stockView[12] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView60);
+        stockView[11] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView61);
+        stockView[10] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView62);
+        stockView[9] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView63);
+        stockView[8] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView64);
+        stockView[7] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView65);
+        stockView[6] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView66);
+        stockView[5] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView67);
+        stockView[4] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView68);
+        stockView[3] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView69);
+        stockView[2] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView70);
+        stockView[1] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView71);
+        stockView[0] = (TextView)findViewById(edu.ramapo.dmelniko.ishido.R.id.peekView72);
 
         // Code to programmatically initialize buttons
         // (Theoretically works, but I'm unsure of it being good practice)
@@ -196,7 +272,7 @@ public class MainActivity extends AppCompatActivity
             for (int j = 0; j < 12; j++)
             {
                 buttonID = buttonID + idCount;
-                BoardView[i][j] = (Button)findViewById(buttonID);
+                boardView[i][j] = (Button)findViewById(buttonID);
                 idCount++;
             }
         }*/
@@ -235,6 +311,7 @@ public class MainActivity extends AppCompatActivity
             deck = new Deck();
             computer = new Player();
             human = new Player();
+            board.nextPlayer = firstPlayer;
         }
         else
         {
@@ -248,9 +325,8 @@ public class MainActivity extends AppCompatActivity
             parseData();
             loadData();
         }
-        isHumanTurn = true;
         deck.readyTile(board);
-        updateBoardView();
+        updateboardView();
     }
 
     // Reads from the file asset
@@ -277,12 +353,14 @@ public class MainActivity extends AppCompatActivity
     // Returns nothing
     public void parseData()
     {
-        String delim = "Layout:|Stock:|Score:";
+        String delim = "Layout:|Stock:|Computer Score:|Human Score:|Next Player:";
         String[] tokens = serialFile.split(delim);
 
         boardData = tokens[1];
         deckData = tokens[2];
-        scoreData = tokens[3];
+        computerScoreData = tokens[3];
+        humanScoreData = tokens[4];
+        nextPlayerData = tokens[5];
     }
 
     // Initializes the board, deck, and computer objects
@@ -293,8 +371,9 @@ public class MainActivity extends AppCompatActivity
     {
         board = new Board(boardData);
         deck = new Deck(deckData);
-        computer = new Player(scoreData);
-        human = new Player(); // Temp
+        computer = new Player(computerScoreData);
+        human = new Player(humanScoreData);
+        board.nextPlayer = nextPlayerData;
     }
 
     // Runs the selected search algorithm
@@ -302,15 +381,24 @@ public class MainActivity extends AppCompatActivity
     // Returns nothing
     public void aiTurn(View view)
     {
-        if(deck.tileDeck.isEmpty() && board.tilePreview.getSymbol().equals(""))
+        search.depthCutoff = 2;
+        // Check if it is the player's turn
+        if(board.nextPlayer.equals("Human"))
         {
-            Toast.makeText(MainActivity.this, "OUT OF TILES", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "It is not currently the computer's turn", Toast.LENGTH_LONG).show();
         }
         else
         {
-            search.bestFirst(board, deck, computer);
-            updateBoardView();
-            isHumanTurn = true;
+            if(deck.tileDeck.isEmpty() && board.tilePreview.getSymbol().equals(""))
+            {
+                Toast.makeText(MainActivity.this, "OUT OF TILES", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                search.miniMax2(board, human, computer, deck);
+                updateboardView();
+                board.nextPlayer = "Human";
+            }
         }
     }
 
@@ -331,7 +419,7 @@ public class MainActivity extends AppCompatActivity
                 else
                 {
                     search.depthFirst(board, deck, computer);
-                    updateBoardView();
+                    updateboardView();
                 }
                 break;
             case "BREADTH-FIRST":
@@ -349,7 +437,7 @@ public class MainActivity extends AppCompatActivity
                         if(search.unscoredMoveList.size() > 0)
                         {
                             search.breadthFirst(board, deck, computer);
-                            updateBoardView();
+                            updateboardView();
                         }
                         //Toast.makeText(MainActivity.this, "OUT OF MOVES", Toast.LENGTH_SHORT).show();
                     }
@@ -358,7 +446,7 @@ public class MainActivity extends AppCompatActivity
                         if(search.unscoredMoveList.size() > 0)
                         {
                             search.breadthFirst(board, deck, computer);
-                            updateBoardView();
+                            updateboardView();
                         }
                         //Toast.makeText(MainActivity.this, "OUT OF MOVES", Toast.LENGTH_SHORT).show();
                     }
@@ -372,12 +460,12 @@ public class MainActivity extends AppCompatActivity
                 else
                 {
                     search.bestFirst(board, deck, computer);
-                    updateBoardView();
+                    updateboardView();
                 }
                 break;
             case "BRANCH&BOUND":
                 search.branchAndBound(board, deck, computer);
-                updateBoardView();
+                updateboardView();
                 break;
         }
     }
@@ -385,7 +473,7 @@ public class MainActivity extends AppCompatActivity
     // Updates all visual elements
     // No parameters are passed
     // Nothing is returned
-    public void updateBoardView()
+    public void updateboardView()
     {
         String scoreMsg;
 
@@ -393,13 +481,29 @@ public class MainActivity extends AppCompatActivity
         tilePreviewButton.setTextColor(Color.parseColor(board.tilePreview.getColor()));
         tilePreviewButton.setTextSize(42);
 
+        for(int i = 0; i < 72; i++)
+        {
+            stockView[i].setText("");
+        }
+        int sviewCount = 71;
+
+        if(!deck.tileDeck.isEmpty())
+        {
+            for(int iter = deck.tileDeck.size() - 1; iter > 0; iter--)
+            {
+                stockView[sviewCount].setText(deck.tileDeck.get(iter).getSymbol());
+                stockView[sviewCount].setTextColor(Color.parseColor(deck.tileDeck.get(iter).getColor()));
+                stockView[sviewCount].setTextSize(42);
+                sviewCount--;
+            }
+        }
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 12; j++)
             {
-                BoardView[i][j].setText(board.tileBoard[i][j].getSymbol());
-                BoardView[i][j].setTextColor(Color.parseColor(board.tileBoard[i][j].getColor()));
-                BoardView[i][j].setTextSize(42);
+                boardView[i][j].setText(board.tileBoard[i][j].getSymbol());
+                boardView[i][j].setTextColor(Color.parseColor(board.tileBoard[i][j].getColor()));
+                boardView[i][j].setTextSize(42);
                 if(board.tileBoard[i][j].getBlinkable().equals(true))
                 {
                     Animation animation = new AlphaAnimation(0.0f, 1.0f);
@@ -407,7 +511,7 @@ public class MainActivity extends AppCompatActivity
                     animation.setStartOffset(20);
                     animation.setRepeatMode(Animation.REVERSE);
                     animation.setRepeatCount(Animation.INFINITE);
-                    BoardView[i][j].startAnimation(animation);
+                    boardView[i][j].startAnimation(animation);
                 }
             }
         }
@@ -529,7 +633,7 @@ public class MainActivity extends AppCompatActivity
                     break;
             }
         }
-        updateBoardView();
+        updateboardView();
     }
 
     // Handles the user's actions on the UI
@@ -537,38 +641,47 @@ public class MainActivity extends AppCompatActivity
     // Nothing is returned
     public void onClick(View view)
     {
-        if(!isHumanTurn)
+        // Check that the deck is not empty
+        if(deck.tileDeck.isEmpty() && board.tilePreview.getSymbol().equals(""))
         {
-            Toast.makeText(MainActivity.this, "It is no longer your turn", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "OUT OF TILES", Toast.LENGTH_SHORT).show();
         }
         else
         {
-            for (int i = 0; i < 8; i++)
+            // Check that it is the player's turn
+            if(board.nextPlayer.equals("Computer"))
             {
-                for (int j = 0; j < 12; j++)
-                {
-                    if (view == BoardView[i][j])
-                    {
-                        rowIndex = i;
-                        colIndex = j;
-                    }
-                }
-            }
-            //Check move for validity
-            if (board.isMoveValid(rowIndex, colIndex))
-            {
-                // Place the tile on the board and clear tile selection
-                board.makeMove(rowIndex, colIndex);
-                // Set score for move just made
-                human.setScore(board.calcMovePointVal(rowIndex, colIndex));
-                // Ready next tile and update the board view
-                deck.readyTile(board);
-                updateBoardView();
-                isHumanTurn = false;
+                Toast.makeText(MainActivity.this, "You have already made your move or it is no longer your turn", Toast.LENGTH_LONG).show();
             }
             else
             {
-                Toast.makeText(MainActivity.this, "Move is invalid or you are trying to cover an existing tile. Please try again", Toast.LENGTH_LONG).show();
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 12; j++)
+                    {
+                        if (view == boardView[i][j])
+                        {
+                            rowIndex = i;
+                            colIndex = j;
+                        }
+                    }
+                }
+                //Check move for validity
+                if (board.isMoveValid(rowIndex, colIndex))
+                {
+                    // Place the tile on the board and clear tile selection
+                    board.makeMove(rowIndex, colIndex);
+                    // Set score for move just made
+                    human.setScore(board.calcMovePointVal(rowIndex, colIndex));
+                    // Ready next tile and update the board view
+                    deck.readyTile(board);
+                    updateboardView();
+                    board.nextPlayer = "Computer";
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "Move is invalid or you are trying to cover an existing tile. Please try again", Toast.LENGTH_LONG).show();
+                }
             }
         }
     }

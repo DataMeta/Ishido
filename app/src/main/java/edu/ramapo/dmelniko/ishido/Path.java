@@ -9,9 +9,9 @@ public class Path
     ArrayList<Move> moveList;
     int pathScore;
 
-    Path(Board MainBoard)
+    Path(Board mainBoard)
     {
-        boardState = new Board(MainBoard);
+        boardState = new Board(mainBoard);
         movePath = new ArrayList<>();
         moveList = new ArrayList<>();
         pathScore = 0;
@@ -78,7 +78,7 @@ public class Path
     {
         Move move = new Move(rowIndex, colIndex, score);
         movePath.add(move);
-        boardState.makeMove(rowIndex, colIndex);
+        //boardState.makeMove(rowIndex, colIndex);
         updatePathScore(score);
     }
 

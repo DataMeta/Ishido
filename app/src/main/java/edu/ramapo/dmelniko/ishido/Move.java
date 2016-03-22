@@ -5,6 +5,7 @@ public class Move
     private int rowIndex;
     private int colIndex;
     private int score;
+    private int heuristicVal;
 
     Move()
     {
@@ -47,6 +48,21 @@ public class Move
     public void setScore(int score)
     {
         this.score = score;
+    }
+    public void setHeuristicVal(int value)
+    {
+        this.heuristicVal = value;
+    }
+    public int getHeuristicVal()
+    {
+        return heuristicVal;
+    }
+
+    public void setVals(Move move)
+    {
+        this.setRowIndex(move.getRowIndex());
+        this.setColIndex(move.getColIndex());
+        this.setHeuristicVal(move.getHeuristicVal());
     }
 
 }

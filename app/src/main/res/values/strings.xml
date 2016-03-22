@@ -8,6 +8,8 @@
     <string name="text_load">LOAD GAME</string>
     <string name="text_save">SAVE GAME</string>
     <string name="text_new">NEW GAME</string>
+    <string name="text_start">START GAME</string>
+    <string name="coin_flip">FLIP THE COIN</string>
     <string name="main_menu">ISHIDO\nMAIN MENU</string>
     <string-array name="tile_symbols">
         <item>"+"</item>
@@ -26,4 +28,5 @@
         <item>"red"</item>
     </string-array>
     <string name="title_activity_startup">StartupActivity</string>
+    <string name="title_activity_turn_order">TurnOrderActivity</string>
 </resources>

@@ -3,8 +3,8 @@ package edu.ramapo.dmelniko.ishido;
 public class Board
 {
     public Tile tilePreview;
-
     public Tile[][] tileBoard;
+    String nextPlayer;
 
     //Default constructor
     public Board()
@@ -336,6 +336,11 @@ public class Board
         tileBoard[rowIndex][colIndex].setColor(previousColor);
         tileBoard[rowIndex][colIndex].setSymbol(previousSymbol);
         return movePointVal;
+    }
+    public void simulateMove(int rowIndex, int colIndex, Deck deck, int deckIndex)
+    {
+        tileBoard[rowIndex][colIndex].setColor(deck.tileDeck.get(deckIndex).getColor());
+        tileBoard[rowIndex][colIndex].setSymbol(deck.tileDeck.get(deckIndex).getSymbol());
     }
     public void simulateMove(int rowIndex, int colIndex)
     {

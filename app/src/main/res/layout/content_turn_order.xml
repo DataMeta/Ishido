@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="edu.ramapo.dmelniko.ishido.TurnOrderActivity"
+    tools:showIn="@layout/activity_turn_order">
+
+    <Button
+        android:id="@+id/flip_coin_button"
+        android:text="@string/coin_flip"
+        android:textSize="@dimen/menu_buttontext_size"
+        android:textStyle="bold"
+        android:layout_width="216dp"
+        android:layout_height="@dimen/button_height"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:id="@+id/start_game_button"
+        android:text="@string/text_start"
+        android:textSize="@dimen/menu_buttontext_size"
+        android:textStyle="bold"
+        android:layout_width="216dp"
+        android:layout_height="@dimen/button_height"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/flip_coin_button"/>
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/coin_spinner"
+        android:layout_above="@+id/flip_coin_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/button_height"/>
+
+</RelativeLayout>

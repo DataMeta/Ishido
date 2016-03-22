@@ -9,8 +9,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="@dimen/activity_margin"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/activity_buffer"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_margin"
         android:weightSum="1">
 
         <TextView
@@ -101,12 +101,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -909,12 +908,533 @@
                 android:onClick="onClick"/>
 
         </GridLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="108dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:background="#bfbfbf"
+                android:layout_marginTop="36dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/peekView1"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginLeft="20dp"/>
+                <TextView
+                    android:id="@+id/peekView2"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView3"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView4"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView5"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView6"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView7"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView8"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView9"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView10"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView11"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView12"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView13"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView14"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView15"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView16"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView17"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView18"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView19"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView20"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView21"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView22"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView23"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView24"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView25"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView26"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView27"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView28"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView29"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView30"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView31"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView32"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView33"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView34"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView35"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView36"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView37"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView38"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView39"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView40"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView41"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView42"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView43"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView44"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView45"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView46"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView47"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView48"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView49"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView50"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView51"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView52"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView53"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView54"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView55"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView56"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView57"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView58"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView59"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView60"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView61"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView62"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView63"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView64"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView65"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView66"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView67"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView68"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView69"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView70"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView71"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+                <TextView
+                    android:id="@+id/peekView72"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="@dimen/menu_text_size"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="@dimen/button_height" />
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <Button
             android:id="@+id/button_tile_preview"
@@ -931,7 +1451,7 @@
             android:id="@+id/button_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="End turn"
+            android:text="NEXT TURN"
             android:textSize="7pt"
             android:onClick="aiTurn"
             android:layout_centerVertical="true"

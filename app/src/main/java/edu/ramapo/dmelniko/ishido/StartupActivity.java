@@ -1,16 +1,18 @@
 package edu.ramapo.dmelniko.ishido;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class StartupActivity extends AppCompatActivity {
+public class StartupActivity extends Activity
+{
     Boolean isNewGame;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup);
 
@@ -22,7 +24,7 @@ public class StartupActivity extends AppCompatActivity {
         {   @Override
             public void onClick(View v)
             {
-                Intent myIntent = new Intent(StartupActivity.this, MainActivity.class);
+                Intent myIntent = new Intent(StartupActivity.this, TurnOrderActivity.class);
                 myIntent.putExtra("isNewGame", true);
                 startActivity(myIntent);
                 finish();
