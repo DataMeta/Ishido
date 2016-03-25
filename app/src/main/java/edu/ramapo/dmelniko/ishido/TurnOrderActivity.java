@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,21 +22,17 @@ public class TurnOrderActivity extends Activity
     Spinner headsOrTails;
     Button flipCoin;
     Button startGame;
+    TextView tossResult;
     String firstPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_turn_order);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
-        // Key to removing floating email icon? [---]
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        //fab.setVisibility(0);
 
         flipCoin = (Button)findViewById(R.id.flip_coin_button);
         startGame = (Button)findViewById(R.id.start_game_button);
+        tossResult = (TextView)findViewById(R.id.toss_result);
         startGame.setVisibility(View.INVISIBLE);
 
         // Spinner to select different search algorithms
@@ -55,21 +52,24 @@ public class TurnOrderActivity extends Activity
         headsOrTails.setPrompt("CALL IT");
         headsOrTails.setAdapter(searchDataAdapter);
 
-        flipCoin.setOnClickListener(new View.OnClickListener()
-        {   @Override
-            public void onClick(View v)
-            {
+        flipCoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Random ran = new Random();
                 int coin = ran.nextInt(2);
                 int call = headsOrTails.getSelectedItemPosition();
-                if(coin == call)
-                {
-                    firstPlayer = "Human";
-                    Toast.makeText(TurnOrderActivity.this, "HUMAN GOES FIRST", Toast.LENGTH_LONG).show();
+
+                if (coin == 0) {
+                    tossResult.setText("RESULT: HEADS");
+                } else {
+                    tossResult.setText("RESULT: TAILS");
                 }
-                else
-                {
-                    firstPlayer = "Computer";
+
+                if (coin == call) {
+                    firstPlayer = "HUMAN";
+                    Toast.makeText(TurnOrderActivity.this, "HUMAN GOES FIRST", Toast.LENGTH_LONG).show();
+                } else {
+                    firstPlayer = "COMPUTER";
                     Toast.makeText(TurnOrderActivity.this, "COMPUTER GOES FIRST", Toast.LENGTH_LONG).show();
                 }
                 startGame.setVisibility(View.VISIBLE);

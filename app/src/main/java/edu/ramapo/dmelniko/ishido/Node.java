@@ -9,8 +9,8 @@ public class Node
     Move bestMove;
     int humanScore;
     int compScore;
-    int bestValue;
-    int rowVal, colVal;
+    //int bestValue;
+    //int rowVal, colVal;
 
     Node(Board parentBoard, Player human, Player computer)
     {
@@ -19,17 +19,17 @@ public class Node
         bestMove = new Move();
         humanScore = human.getScore();
         compScore = computer.getScore();
-        bestValue = 0;
+        //bestValue = 0;
     }
     Node(Node parentNode)
     {
         boardState = new Board(parentNode.boardState);
         moveList = new ArrayList<>();
         bestMove = new Move();
-        bestMove.setHeuristicVal(parentNode.bestMove.getHeuristicVal());
+        //bestMove.setHeuristicVal(parentNode.bestMove.getHeuristicVal());
         humanScore = parentNode.getHumanScore();
         compScore = parentNode.getCompScore();
-        bestValue = parentNode.getBestValue();
+        //bestValue = parentNode.getBestValue();
     }
     Node(Node parentNode, Boolean copyBestMove)
     {
@@ -39,7 +39,7 @@ public class Node
         bestMove.setVals(parentNode.bestMove);
         humanScore = parentNode.getHumanScore();
         compScore = parentNode.getCompScore();
-        bestValue = parentNode.getBestValue();
+        //bestValue = parentNode.getBestValue();
     }
 
     // Generates a list of moves
@@ -76,14 +76,6 @@ public class Node
         return bestMove;
     }
 
-    public void setBestValue(int value)
-    {
-        this.bestValue = value;
-    }
-    public int getBestValue()
-    {
-        return bestValue;
-    }
     public int getHumanScore()
     {
         return humanScore;

@@ -1478,5 +1478,45 @@
             android:layout_alignLeft="@+id/score_keep"
             android:layout_alignStart="@+id/score_keep" />
 
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_cutoff"
+            android:layout_alignTop="@+id/button_next"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/button_tile_preview"
+            android:layout_toStartOf="@+id/button_tile_preview" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text=""
+            android:id="@+id/current_turn"
+            android:layout_below="@+id/score_keep_human"
+            android:layout_alignLeft="@+id/score_keep_human"
+            android:layout_alignStart="@+id/score_keep_human" />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ALPHA-BETA PRUNING"
+            android:id="@+id/alphaBeta_switch"
+            android:layout_above="@+id/button_tile_preview"
+            android:layout_alignLeft="@+id/current_turn"
+            android:layout_alignStart="@+id/current_turn" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HELP"
+            android:id="@+id/button_help"
+            android:layout_below="@+id/spinner_cutoff"
+            android:layout_alignRight="@+id/button_next"
+            android:layout_alignEnd="@+id/button_next"
+            android:layout_marginTop="62dp"
+            android:onClick=""/>
+
     </RelativeLayout>
 </LinearLayout>

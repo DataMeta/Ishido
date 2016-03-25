@@ -308,12 +308,13 @@ public class Board
 
     // Place the tile on the board and clear tile selection
     // Accepts coordinate variables
-    public void makeMove(int rowIndex, int colIndex)
+    public void makeMove(int rowIndex, int colIndex, Deck deck)
     {
         tileBoard[rowIndex][colIndex].setColor(tilePreview.getColor());
         tileBoard[rowIndex][colIndex].setSymbol(tilePreview.getSymbol());
         tilePreview.setColor("green");
         tilePreview.setSymbol("");
+        deck.tileDeck.remove(deck.tileDeck.size() - 1); // added
     }
 
     // Provides the ability to simulate a move, and get its point value

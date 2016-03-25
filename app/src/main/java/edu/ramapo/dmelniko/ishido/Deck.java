@@ -137,7 +137,7 @@ public class Deck
         int lastIndex = tileDeck.size() - 1;
         board.tilePreview.setColor(tileDeck.get(lastIndex).getColor());
         board.tilePreview.setSymbol(tileDeck.get(lastIndex).getSymbol());
-        tileDeck.remove(lastIndex);
+        //tileDeck.remove(lastIndex);
     }
     // Places a tile to the active tile index, which is used for all search operations
     // Accepts a Board object and a deck index

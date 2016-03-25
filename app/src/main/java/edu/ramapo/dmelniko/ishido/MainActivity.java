@@ -43,9 +43,11 @@ public class MainActivity extends Activity
     Search search = new Search();
 
     Button tilePreviewButton;
+    Button moveHelp;
 
     TextView scoreKeep;
     TextView scoreKeepHuman;
+    TextView currentPlayer;
 
     Switch modeSelectSwitch;
 
@@ -278,32 +280,16 @@ public class MainActivity extends Activity
         }*/
 
         tilePreviewButton = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button_tile_preview);
+        moveHelp = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button_help);
 
         scoreKeep = (TextView) findViewById(edu.ramapo.dmelniko.ishido.R.id.score_keep);
         scoreKeep.setText("SCORE: ");
         scoreKeepHuman = (TextView) findViewById(edu.ramapo.dmelniko.ishido.R.id.score_keep_human);
         scoreKeepHuman.setText("SCORE: ");
+        currentPlayer = (TextView) findViewById(edu.ramapo.dmelniko.ishido.R.id.current_turn);
 
-        // Spinner to select different search algorithms
-        /*searchSpinner = (Spinner) findViewById(edu.ramapo.dmelniko.ishido.R.id.spinner_search);
-
-        final List<String> searchList = new ArrayList<>();
-        searchList.add("DEPTH-FIRST");
-        searchList.add("BREADTH-FIRST");
-        searchList.add("BEST-FIRST");
-        searchList.add("BRANCH&BOUND");
-
-        // Create ArrayAdapters using the string arrays and a default spinner layout
-        ArrayAdapter<String> searchDataAdapter = new ArrayAdapter<>
-                (this, android.R.layout.simple_spinner_item,searchList);
-
-        // Specify the layout to use when the list of choices appears
-        searchDataAdapter.setDropDownViewResource
-                (android.R.layout.simple_spinner_dropdown_item);
-
-        // Apply the adapters to the spinners
-        searchSpinner.setPrompt("SEARCH ALGORITHMS");
-        searchSpinner.setAdapter(searchDataAdapter);*/
+        // Spinner to select different depth cutoff
+        searchSpinner = (Spinner) findViewById(edu.ramapo.dmelniko.ishido.R.id.spinner_cutoff);
 
         if (isNewGame)
         {
@@ -325,6 +311,25 @@ public class MainActivity extends Activity
             parseData();
             loadData();
         }
+
+        final List<String> searchList = new ArrayList<>();
+        for(int i = 0; i < deck.tileDeck.size(); i++)
+        {
+            searchList.add(Integer.toString(i));
+        }
+        // Create ArrayAdapters using the string arrays and a default spinner layout
+        ArrayAdapter<String> searchDataAdapter = new ArrayAdapter<>
+                (this, android.R.layout.simple_spinner_item,searchList);
+
+        // Specify the layout to use when the list of choices appears
+        searchDataAdapter.setDropDownViewResource
+                (android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapters to the spinners
+        searchSpinner.setPrompt("DEPTH CUTOFF");
+        searchSpinner.setAdapter(searchDataAdapter);
+
+        currentPlayer.setText(board.currentPlayer);
         deck.readyTile(board);
         updateBoardView();
     }
@@ -338,7 +343,7 @@ public class MainActivity extends Activity
         InputStream input2 = getAssets().open("case2.txt");
         InputStream input3 = getAssets().open("case3.txt");
         InputStream input4 = getAssets().open("case4.txt");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input2));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input1));
         String output = new String();
         String line;
         while ((line = reader.readLine()) != null) {
@@ -381,9 +386,9 @@ public class MainActivity extends Activity
     // Returns nothing
     public void aiTurn(View view)
     {
-        search.setDepthCutoff(3);
+        search.setDepthCutoff(searchSpinner.getSelectedItemPosition());
         // Check if it is the player's turn
-        if(board.currentPlayer.equals("Human"))
+        if(board.currentPlayer.equals("HUMAN"))
         {
             Toast.makeText(MainActivity.this, "It is not currently the computer's turn", Toast.LENGTH_LONG).show();
         }
@@ -396,8 +401,8 @@ public class MainActivity extends Activity
             else
             {
                 search.miniMaxWrapper(board, human, computer, deck);
+                board.currentPlayer = "HUMAN";
                 updateBoardView();
-                board.currentPlayer = "Human";
             }
         }
     }
@@ -408,7 +413,8 @@ public class MainActivity extends Activity
     public void nextTile(View view)
     {
         String searchType;
-        searchType = searchSpinner.getSelectedItem().toString();
+        //searchType = searchSpinner.getSelectedItem().toString();
+        searchType = "BEST-FIRST";
         switch (searchType)
         {
             case "DEPTH-FIRST":
@@ -459,7 +465,7 @@ public class MainActivity extends Activity
                 }
                 else
                 {
-                    search.bestFirst(board, deck, computer);
+                    search.bestFirstHelp(board, deck, computer);
                     updateBoardView();
                 }
                 break;
@@ -519,6 +525,8 @@ public class MainActivity extends Activity
         scoreKeep.setText(scoreMsg);
         scoreMsg = "HUMAN SCORE: " + (Integer.toString(human.getScore()));
         scoreKeepHuman.setText(scoreMsg);
+        scoreMsg = "CURRENT TURN: " + board.currentPlayer;
+        currentPlayer.setText(scoreMsg);
     }
 
     // Generates a random color and symbol for the tile that is to be placed
@@ -649,7 +657,7 @@ public class MainActivity extends Activity
         else
         {
             // Check that it is the player's turn
-            if(board.currentPlayer.equals("Computer"))
+            if(board.currentPlayer.equals("COMPUTER"))
             {
                 Toast.makeText(MainActivity.this, "You have already made your move or it is no longer your turn", Toast.LENGTH_LONG).show();
             }
@@ -670,13 +678,13 @@ public class MainActivity extends Activity
                 if (board.isMoveValid(rowIndex, colIndex))
                 {
                     // Place the tile on the board and clear tile selection
-                    board.makeMove(rowIndex, colIndex);
+                    board.makeMove(rowIndex, colIndex, deck);
                     // Set score for move just made
                     human.setScore(board.calcMovePointVal(rowIndex, colIndex));
                     // Ready next tile and update the board view
                     deck.readyTile(board);
+                    board.currentPlayer = "COMPUTER";
                     updateBoardView();
-                    board.currentPlayer = "Computer";
                 }
                 else
                 {
