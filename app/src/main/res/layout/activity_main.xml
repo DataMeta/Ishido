@@ -1518,5 +1518,14 @@
             android:layout_marginTop="62dp"
             android:onClick=""/>
 
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:text=""
+            android:id="@+id/move_info"
+            android:layout_marginTop="28dp"
+            android:layout_below="@+id/button_help"
+            android:layout_centerHorizontal="true" />
+
     </RelativeLayout>
 </LinearLayout>

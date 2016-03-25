@@ -12,9 +12,14 @@ public class Search
     int depth;
     int depthCutoff;
 
+    int blinkRow, blinkCol;
+    int moveRow, moveCol;
+
     Search()
     {
         depth = 0;
+        blinkRow = 0;
+        blinkCol = 0;
     }
 
     public void setDepthCutoff(int depthCutoff)
@@ -100,9 +105,7 @@ public class Search
     // Implements the MiniMax algorithm
     public Node miniMax(Node parentNode, Deck deck, String turn, int depth)
     {
-        Node node = new Node(parentNode);
-        node.genMoveList(deck, deck.tileDeck.size() - (depth + 1));
-        if(depth == depthCutoff || node.moveList.isEmpty())
+        if(depth == depthCutoff)
         {
             parentNode.bestMove.setHeuristicVal(evaluate(parentNode));
             return parentNode;
@@ -112,6 +115,8 @@ public class Search
             // Computer turn
             if(turn.equals("Computer"))
             {
+                Node node = new Node(parentNode);
+                node.genMoveList(deck, deck.tileDeck.size() - (depth + 1));
                 for (Move move : node.moveList)
                 {
                     // Simulate move and update score for the move
@@ -128,6 +133,8 @@ public class Search
             // Player turn
             else
             {
+                Node node = new Node(parentNode);
+                node.genMoveList(deck, deck.tileDeck.size() - (depth + 1));
                 for (Move move : node.moveList)
                 {
                     // Simulate move and update score for the move
@@ -144,17 +151,73 @@ public class Search
         }
     }
 
-    public void miniMaxWrapper(Board board, Player human, Player computer, Deck deck)
+    public Node alphaBeta(Node parentNode, Deck deck, String turn, int depth)
+    {
+        if(depth == depthCutoff)
+        {
+            parentNode.bestMove.setHeuristicVal(evaluate(parentNode));
+            return parentNode;
+        }
+        else
+        {
+            // Computer turn
+            if(turn.equals("Computer"))
+            {
+                Node node = new Node(parentNode);
+                node.genMoveList(deck, deck.tileDeck.size() - (depth + 1));
+                for (Move move : node.moveList)
+                {
+                    // Simulate move and update score for the move
+                    node.boardState.simulateMove(move.getRowIndex(), move.getColIndex(), deck, deck.tileDeck.size() - (depth + 1));
+                    node.updateCompScore(node.boardState.calcMovePointVal(move.getRowIndex(), move.getColIndex()));
+                    // Set the move's heuristic value to the best possible value that can result from it
+                    move.setHeuristicVal(alphaBeta(node, deck, "Human", depth + 1).getBestMove().getHeuristicVal());
+                    // Revert the previous board state and score
+                    node.boardState.undoMove(move.getRowIndex(), move.getColIndex());
+                    node.revertCompScore(node.boardState.calcMovePointVal(move.getRowIndex(), move.getColIndex()));
+                }
+                return max(node);
+            }
+            // Player turn
+            else
+            {
+                Node node = new Node(parentNode);
+                node.genMoveList(deck, deck.tileDeck.size() - (depth + 1));
+                for (Move move : node.moveList)
+                {
+                    // Simulate move and update score for the move
+                    node.boardState.simulateMove(move.getRowIndex(), move.getColIndex(), deck, deck.tileDeck.size() - (depth + 1));
+                    node.updateHumanScore(node.boardState.calcMovePointVal(move.getRowIndex(), move.getColIndex()));
+                    // Set the move's heuristic value to the best possible value that can result from it
+                    move.setHeuristicVal(alphaBeta(node, deck, "Computer", depth + 1).getBestMove().getHeuristicVal());
+                    // Revert the previous board state and score
+                    node.boardState.undoMove(move.getRowIndex(), move.getColIndex());
+                    node.revertHumanScore(node.boardState.calcMovePointVal(move.getRowIndex(), move.getColIndex()));
+                }
+                return min(node);
+            }
+        }
+    }
+
+    public int miniMaxWrapper(Board board, Player human, Player computer, Deck deck)
     {
         Node rootNode = new Node(board, human, computer);
         Node solutionNode = new Node(miniMax(rootNode, deck, "Computer", depth), true);
-        board.makeMove(solutionNode.bestMove.getRowIndex(), solutionNode.bestMove.getColIndex(), deck);
-        computer.setScore(board.calcMovePointVal(solutionNode.bestMove.getRowIndex(), solutionNode.bestMove.getColIndex()));
-        board.tileBoard[solutionNode.bestMove.getRowIndex()][solutionNode.bestMove.getColIndex()].setBlinkable(true);
+
+        moveRow = solutionNode.bestMove.getRowIndex();
+        moveCol = solutionNode.bestMove.getColIndex();
+        board.makeMove(moveRow, moveCol, deck);
+        computer.setScore(board.calcMovePointVal(moveRow, moveCol));
+
+        board.tileBoard[blinkRow][blinkCol].setBlinkable(false);
+        board.tileBoard[moveRow][moveCol].setBlinkable(true);
+        blinkRow = moveRow;
+        blinkCol = moveCol;
         if (!deck.tileDeck.isEmpty())
         {
             deck.readyTile(board);
         }
+        return board.calcMovePointVal(moveRow, moveCol);
     }
 
     public void depthFirst(Board board, Deck deck, Player computer)
@@ -251,35 +314,6 @@ public class Search
             {
                 deck.readyTile(board);
             }
-        }
-    }
-
-    public void bestFirstHelp(Board board, Deck deck, Player computer)
-    {
-        int rowIndex, colIndex, score;
-        int bestScore = 0, bestMoveIndex = 0;
-
-        moveList.clear();
-        genMoveList(board);
-
-        if(moveList.size() > 0)
-        {
-            for (int i = 0; i < moveList.size(); i++)
-            {
-                score = moveList.get(i).getScore();
-                if (score > bestScore)
-                {
-                    bestScore = score;
-                    bestMoveIndex = i;
-                }
-            }
-            rowIndex = moveList.get(bestMoveIndex).getRowIndex();
-            colIndex = moveList.get(bestMoveIndex).getColIndex();
-            score = moveList.get(bestMoveIndex).getScore();
-
-            board.makeMove(rowIndex, colIndex, deck);
-            board.tileBoard[rowIndex][colIndex].setBlinkable(true);
-
         }
     }
 

@@ -8,6 +8,7 @@
 
 package edu.ramapo.dmelniko.ishido;
 
+import java.lang.System;
 import android.app.Activity;
 import android.content.res.AssetManager;
 import android.graphics.Color;
@@ -48,6 +49,7 @@ public class MainActivity extends Activity
     TextView scoreKeep;
     TextView scoreKeepHuman;
     TextView currentPlayer;
+    TextView moveInfo;
 
     Switch modeSelectSwitch;
 
@@ -281,7 +283,7 @@ public class MainActivity extends Activity
 
         tilePreviewButton = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button_tile_preview);
         moveHelp = (Button)findViewById(edu.ramapo.dmelniko.ishido.R.id.button_help);
-
+        moveInfo = (TextView) findViewById(edu.ramapo.dmelniko.ishido.R.id.move_info);
         scoreKeep = (TextView) findViewById(edu.ramapo.dmelniko.ishido.R.id.score_keep);
         scoreKeep.setText("SCORE: ");
         scoreKeepHuman = (TextView) findViewById(edu.ramapo.dmelniko.ishido.R.id.score_keep_human);
@@ -386,6 +388,7 @@ public class MainActivity extends Activity
     // Returns nothing
     public void aiTurn(View view)
     {
+        view.clearAnimation();
         search.setDepthCutoff(searchSpinner.getSelectedItemPosition());
         // Check if it is the player's turn
         if(board.currentPlayer.equals("HUMAN"))
@@ -400,7 +403,36 @@ public class MainActivity extends Activity
             }
             else
             {
-                search.miniMaxWrapper(board, human, computer, deck);
+                long startTime = System.nanoTime();
+                int moveScore = search.miniMaxWrapper(board, human, computer, deck);
+                long endTime = System.nanoTime();
+                long duration = (endTime - startTime) / 1000000;
+
+                String moveinfo = "Move score: " + Integer.toString(moveScore) + "\nAlgorithm took: \n";
+                if(duration > 60000)
+                {
+                    long milliseconds = duration % 1000;
+                    duration /= 1000;
+                    long seconds = duration % 60;
+                    long minutes = duration / 60;
+
+
+                    moveinfo += Long.toString(minutes) + "m " + Long.toString(seconds) + "s "
+                            + Long.toString(milliseconds) + "ms ";
+                }
+                else if (duration < 60000 && duration > 1000)
+                {
+                    long milliseconds = duration % 1000;
+                    duration /= 1000;
+                    long seconds = duration % 60;
+                    moveinfo += Long.toString(seconds) + "s " + Long.toString(milliseconds) + "ms ";
+                }
+                else
+                {
+                    moveinfo += Long.toString(duration) + "ms ";
+                }
+                moveInfo.setText(moveinfo);
+                moveInfo.setTextSize(18);
                 board.currentPlayer = "HUMAN";
                 updateBoardView();
             }
@@ -465,7 +497,7 @@ public class MainActivity extends Activity
                 }
                 else
                 {
-                    search.bestFirstHelp(board, deck, computer);
+                    search.bestFirst(board, deck, computer);
                     updateBoardView();
                 }
                 break;
@@ -491,6 +523,8 @@ public class MainActivity extends Activity
         {
             stockView[i].setText("");
         }
+
+        // Can be made to get deck size and eliminate extra space at end of deck peek
         int sviewCount = 71;
 
         if(!deck.tileDeck.isEmpty())
@@ -503,6 +537,7 @@ public class MainActivity extends Activity
                 sviewCount--;
             }
         }
+
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 12; j++)
@@ -521,6 +556,7 @@ public class MainActivity extends Activity
                 }
             }
         }
+
         scoreMsg = "COMPUTER SCORE: " + (Integer.toString(computer.getScore()));
         scoreKeep.setText(scoreMsg);
         scoreMsg = "HUMAN SCORE: " + (Integer.toString(human.getScore()));
