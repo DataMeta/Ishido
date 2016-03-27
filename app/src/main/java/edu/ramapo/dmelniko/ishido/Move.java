@@ -6,6 +6,7 @@ public class Move
     private int colIndex;
     private int score;
     private int heuristicVal;
+    //private int parentHeuristicVal;
 
     Move()
     {

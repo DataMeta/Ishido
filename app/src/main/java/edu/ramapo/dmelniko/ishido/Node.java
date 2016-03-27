@@ -9,6 +9,8 @@ public class Node
     Move bestMove;
     int humanScore;
     int compScore;
+    int parentHeuristicVal;
+    Boolean isRootNode;
 
     Node(Board parentBoard, Player human, Player computer)
     {
@@ -17,6 +19,7 @@ public class Node
         bestMove = new Move();
         humanScore = human.getScore();
         compScore = computer.getScore();
+        isRootNode = true;
     }
     Node(Node parentNode)
     {
@@ -25,6 +28,7 @@ public class Node
         bestMove = new Move();
         humanScore = parentNode.getHumanScore();
         compScore = parentNode.getCompScore();
+        isRootNode = false;
     }
     Node(Node parentNode, Boolean copyBestMove)
     {
@@ -34,6 +38,7 @@ public class Node
         bestMove.setVals(parentNode.bestMove);
         humanScore = parentNode.getHumanScore();
         compScore = parentNode.getCompScore();
+        isRootNode = false;
     }
 
 
@@ -63,15 +68,45 @@ public class Node
         }
     }
 
-    public void setBestMove(Move bestMove) // use this
+    public void setHeuristics(Node parentNode, String turn)
+    {
+        if(turn.equals("Human"))
+        {
+            this.bestMove.setHeuristicVal(Integer.MIN_VALUE);
+            this.setParentHeuristicVal(parentNode.bestMove.getHeuristicVal());
+        }
+        else
+        {
+            this.bestMove.setHeuristicVal(Integer.MAX_VALUE);
+            this.setParentHeuristicVal(parentNode.bestMove.getHeuristicVal());
+        }
+    }
+
+
+    public Boolean getIsRootNode()
+    {
+        return isRootNode;
+    }
+    public void setIsRootNode(Boolean value)
+    {
+        this.isRootNode = value;
+    }
+    public void setBestMove(Move bestMove)
     {
         this.bestMove.setVals(bestMove);
     }
-    public Move getBestMove() // use this
+    public Move getBestMove()
     {
         return bestMove;
     }
-
+    public int getParentHeuristicVal()
+    {
+        return parentHeuristicVal;
+    }
+    public void setParentHeuristicVal(int heuristicVal)
+    {
+        this.parentHeuristicVal = parentHeuristicVal;
+    }
     public int getHumanScore()
     {
         return humanScore;

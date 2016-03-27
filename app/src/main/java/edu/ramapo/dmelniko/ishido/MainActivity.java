@@ -72,6 +72,7 @@ public class MainActivity extends Activity
     int rowIndex;
     int colIndex;
 
+    Animation animation = new AlphaAnimation(0.0f, 1.0f);
     Boolean tileFound;
     Boolean isNewGame;
 
@@ -289,9 +290,15 @@ public class MainActivity extends Activity
         scoreKeepHuman = (TextView) findViewById(edu.ramapo.dmelniko.ishido.R.id.score_keep_human);
         scoreKeepHuman.setText("SCORE: ");
         currentPlayer = (TextView) findViewById(edu.ramapo.dmelniko.ishido.R.id.current_turn);
+        modeSelectSwitch = (Switch) findViewById(edu.ramapo.dmelniko.ishido.R.id.alphaBeta_switch);
 
         // Spinner to select different depth cutoff
         searchSpinner = (Spinner) findViewById(edu.ramapo.dmelniko.ishido.R.id.spinner_cutoff);
+
+        animation.setDuration(360);
+        animation.setStartOffset(20);
+        animation.setRepeatMode(Animation.REVERSE);
+        animation.setRepeatCount(Animation.INFINITE);
 
         if (isNewGame)
         {
@@ -390,7 +397,7 @@ public class MainActivity extends Activity
     {
         view.clearAnimation();
         search.setDepthCutoff(searchSpinner.getSelectedItemPosition());
-        // Check if it is the player's turn
+        // Check if it is the computer's turn
         if(board.currentPlayer.equals("HUMAN"))
         {
             Toast.makeText(MainActivity.this, "It is not currently the computer's turn", Toast.LENGTH_LONG).show();
@@ -403,8 +410,13 @@ public class MainActivity extends Activity
             }
             else
             {
+                Boolean usePruning = false;
+                if(modeSelectSwitch.isChecked())
+                {
+                    usePruning = true;
+                }
                 long startTime = System.nanoTime();
-                int moveScore = search.miniMaxWrapper(board, human, computer, deck);
+                int moveScore = search.miniMaxWrapper(board, human, computer, deck, usePruning);
                 long endTime = System.nanoTime();
                 long duration = (endTime - startTime) / 1000000;
 
@@ -547,12 +559,12 @@ public class MainActivity extends Activity
                 boardView[i][j].setTextSize(42);
                 if(board.tileBoard[i][j].getBlinkable().equals(true))
                 {
-                    Animation animation = new AlphaAnimation(0.0f, 1.0f);
-                    animation.setDuration(360);
-                    animation.setStartOffset(20);
-                    animation.setRepeatMode(Animation.REVERSE);
-                    animation.setRepeatCount(Animation.INFINITE);
                     boardView[i][j].startAnimation(animation);
+                }
+                else
+                {
+                    boardView[i][j].clearAnimation();
+                    boardView[i][j].setAlpha(1.0f);
                 }
             }
         }
@@ -685,46 +697,62 @@ public class MainActivity extends Activity
     // Nothing is returned
     public void onClick(View view)
     {
-        // Check that the deck is not empty
-        if(deck.tileDeck.isEmpty() && board.tilePreview.getSymbol().equals(""))
+        if(view == moveHelp)
         {
-            Toast.makeText(MainActivity.this, "OUT OF TILES", Toast.LENGTH_SHORT).show();
+            search.setDepthCutoff(searchSpinner.getSelectedItemPosition());
+            Boolean usePruning = false;
+            if(modeSelectSwitch.isChecked())
+            {
+                usePruning = true;
+            }
+            search.miniMaxHelp(board, human, computer, deck, usePruning);
+            updateBoardView();
+            board.undoMove(search.lastMoveRow, search.lastMoveCol);
+            board.tileBoard[search.lastMoveRow][search.lastMoveCol].setBlinkable(false);
         }
         else
         {
-            // Check that it is the player's turn
-            if(board.currentPlayer.equals("COMPUTER"))
+            // Check that the deck is not empty
+            if(deck.tileDeck.isEmpty() && board.tilePreview.getSymbol().equals(""))
             {
-                Toast.makeText(MainActivity.this, "You have already made your move or it is no longer your turn", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "OUT OF TILES", Toast.LENGTH_SHORT).show();
             }
             else
             {
-                for (int i = 0; i < 8; i++)
+                // Check that it is the player's turn
+                if(board.currentPlayer.equals("COMPUTER"))
                 {
-                    for (int j = 0; j < 12; j++)
-                    {
-                        if (view == boardView[i][j])
-                        {
-                            rowIndex = i;
-                            colIndex = j;
-                        }
-                    }
-                }
-                //Check move for validity
-                if (board.isMoveValid(rowIndex, colIndex))
-                {
-                    // Place the tile on the board and clear tile selection
-                    board.makeMove(rowIndex, colIndex, deck);
-                    // Set score for move just made
-                    human.setScore(board.calcMovePointVal(rowIndex, colIndex));
-                    // Ready next tile and update the board view
-                    deck.readyTile(board);
-                    board.currentPlayer = "COMPUTER";
-                    updateBoardView();
+                    Toast.makeText(MainActivity.this, "You have already made your move or it is no longer your turn", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
-                    Toast.makeText(MainActivity.this, "Move is invalid or you are trying to cover an existing tile. Please try again", Toast.LENGTH_LONG).show();
+                    for (int i = 0; i < 8; i++)
+                    {
+                        for (int j = 0; j < 12; j++)
+                        {
+                            if (view == boardView[i][j])
+                            {
+                                rowIndex = i;
+                                colIndex = j;
+                            }
+                        }
+                    }
+                    //Check move for validity
+                    if (board.isMoveValid(rowIndex, colIndex))
+                    {
+                        // Place the tile on the board and clear tile selection
+                        board.makeMove(rowIndex, colIndex, deck);
+                        // Set score for move just made
+                        human.setScore(board.calcMovePointVal(rowIndex, colIndex));
+                        // Ready next tile and update the board view
+                        deck.readyTile(board);
+                        board.currentPlayer = "COMPUTER";
+                        updateBoardView();
+                    }
+                    else
+                    {
+                        Toast.makeText(MainActivity.this, "Move is invalid or you are trying to cover an existing tile. Please try again", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         }

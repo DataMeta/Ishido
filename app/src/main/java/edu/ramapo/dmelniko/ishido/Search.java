@@ -13,6 +13,7 @@ public class Search
     int depthCutoff;
 
     int blinkRow, blinkCol;
+    int lastMoveRow, lastMoveCol;
     int moveRow, moveCol;
 
     Search()
@@ -112,7 +113,7 @@ public class Search
         }
         else
         {
-            // Computer turn
+            // Maximizing
             if(turn.equals("Computer"))
             {
                 Node node = new Node(parentNode);
@@ -130,7 +131,7 @@ public class Search
                 }
                 return max(node);
             }
-            // Player turn
+            // Minimizing
             else
             {
                 Node node = new Node(parentNode);
@@ -160,11 +161,12 @@ public class Search
         }
         else
         {
-            // Computer turn
+            // Maximizing
             if(turn.equals("Computer"))
             {
                 Node node = new Node(parentNode);
                 node.genMoveList(deck, deck.tileDeck.size() - (depth + 1));
+                node.setHeuristics(parentNode, turn);
                 for (Move move : node.moveList)
                 {
                     // Simulate move and update score for the move
@@ -175,14 +177,38 @@ public class Search
                     // Revert the previous board state and score
                     node.boardState.undoMove(move.getRowIndex(), move.getColIndex());
                     node.revertCompScore(node.boardState.calcMovePointVal(move.getRowIndex(), move.getColIndex()));
+
+                    // If this move's heuristic is greater than the parent, overwrite the parent's heuristic value
+                    if (node.getParentHeuristicVal() < move.getHeuristicVal() )
+                    {
+                        node.setParentHeuristicVal(move.getHeuristicVal());
+                    }
+                    // If the parent and grandparent heuristic value don't intersect, prune and return heuristic value
+                    if (!parentNode.getIsRootNode() && (parentNode.getParentHeuristicVal() != Integer.MAX_VALUE)
+                            && (parentNode.getParentHeuristicVal() < move.getHeuristicVal()))
+                    {
+                        node.bestMove.setHeuristicVal(node.getParentHeuristicVal());
+                        return node;
+                    }
                 }
-                return max(node);
+                // If the parent is a root node and all the nodes have been evaluated, pass the row/col to the root
+                if(parentNode.getIsRootNode())
+                {
+                    node.setBestMove(max(node).getBestMove());
+                }
+                // Otherwise send the heuristic value to the parent
+                else
+                {
+                    node.bestMove.setHeuristicVal(node.getParentHeuristicVal());
+                }
+                return node;
             }
-            // Player turn
+            // Minimizing
             else
             {
                 Node node = new Node(parentNode);
                 node.genMoveList(deck, deck.tileDeck.size() - (depth + 1));
+                node.setHeuristics(parentNode, turn);
                 for (Move move : node.moveList)
                 {
                     // Simulate move and update score for the move
@@ -193,19 +219,45 @@ public class Search
                     // Revert the previous board state and score
                     node.boardState.undoMove(move.getRowIndex(), move.getColIndex());
                     node.revertHumanScore(node.boardState.calcMovePointVal(move.getRowIndex(), move.getColIndex()));
+
+                    // If this move's heuristic is greater than the parent, overwrite the parent's heuristic value
+                    if (node.getParentHeuristicVal() > move.getHeuristicVal() )
+                    {
+                        node.setParentHeuristicVal(move.getHeuristicVal());
+                    }
+                    // If the parent and grandparent heuristic value don't intersect, prune and return heuristic value
+                    if (!parentNode.getIsRootNode() && (parentNode.getParentHeuristicVal() != Integer.MIN_VALUE)
+                            && (parentNode.getParentHeuristicVal() > move.getHeuristicVal()))
+                    {
+                        node.bestMove.setHeuristicVal(node.getParentHeuristicVal());
+                        return node;
+                    }
                 }
-                return min(node);
+                // Send the heuristic value up to the parent
+                node.bestMove.setHeuristicVal(node.getParentHeuristicVal());
+                return node;
             }
         }
     }
 
-    public int miniMaxWrapper(Board board, Player human, Player computer, Deck deck)
+    public int miniMaxWrapper(Board board, Player human, Player computer, Deck deck, Boolean usePruning)
     {
-        Node rootNode = new Node(board, human, computer);
-        Node solutionNode = new Node(miniMax(rootNode, deck, "Computer", depth), true);
+        if (!usePruning)
+        {
+            Node rootNode = new Node(board, human, computer);
+            Node solutionNode = new Node(miniMax(rootNode, deck, "Computer", depth), true);
+            moveRow = solutionNode.bestMove.getRowIndex();
+            moveCol = solutionNode.bestMove.getColIndex();
+        }
+        else
+        {
+            Node rootNode = new Node(board, human, computer);
+            rootNode.bestMove.setHeuristicVal(Integer.MIN_VALUE);
+            Node solutionNode = new Node(alphaBeta(rootNode, deck, "Computer", depth), true);
+            moveRow = solutionNode.bestMove.getRowIndex();
+            moveCol = solutionNode.bestMove.getColIndex();
+        }
 
-        moveRow = solutionNode.bestMove.getRowIndex();
-        moveCol = solutionNode.bestMove.getColIndex();
         board.makeMove(moveRow, moveCol, deck);
         computer.setScore(board.calcMovePointVal(moveRow, moveCol));
 
@@ -218,6 +270,32 @@ public class Search
             deck.readyTile(board);
         }
         return board.calcMovePointVal(moveRow, moveCol);
+    }
+
+    public void miniMaxHelp(Board board, Player human, Player computer, Deck deck, Boolean usePruning)
+    {
+        if (!usePruning)
+        {
+            Node rootNode = new Node(board, human, computer);
+            Node solutionNode = new Node(miniMax(rootNode, deck, "Computer", depth), true);
+            moveRow = solutionNode.bestMove.getRowIndex();
+            moveCol = solutionNode.bestMove.getColIndex();
+        }
+        else
+        {
+            Node rootNode = new Node(board, human, computer);
+            rootNode.bestMove.setHeuristicVal(Integer.MIN_VALUE);
+            Node solutionNode = new Node(alphaBeta(rootNode, deck, "Computer", depth), true);
+            moveRow = solutionNode.bestMove.getRowIndex();
+            moveCol = solutionNode.bestMove.getColIndex();
+        }
+
+        board.tileBoard[moveRow][moveCol].setColor(board.tilePreview.getColor());
+        board.tileBoard[moveRow][moveCol].setSymbol(board.tilePreview.getSymbol());
+        board.tileBoard[lastMoveRow][lastMoveCol].setBlinkable(false);
+        board.tileBoard[moveRow][moveCol].setBlinkable(true);
+        lastMoveRow = moveRow;
+        lastMoveCol = moveCol;
     }
 
     public void depthFirst(Board board, Deck deck, Player computer)

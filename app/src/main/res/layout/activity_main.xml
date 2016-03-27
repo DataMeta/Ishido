@@ -1516,7 +1516,7 @@
             android:layout_alignRight="@+id/button_next"
             android:layout_alignEnd="@+id/button_next"
             android:layout_marginTop="62dp"
-            android:onClick=""/>
+            android:onClick="onClick"/>
 
         <TextView
             android:layout_width="200dp"
