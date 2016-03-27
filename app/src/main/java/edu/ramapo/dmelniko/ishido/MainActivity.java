@@ -1,8 +1,8 @@
 /****************************************************************
 * Name:  Daniel Melnikov                                        *
-* Project:  Project 3 - Ishido with MiniMax & AlphaBeta Pruning *
+* Project:  Project 3 - Ishido for Two                          *
 * Class:  Artificial Intelligence - CMPS 331                    *
-* Date:  2/6/16                                                 *
+* Date:  3/15/16                                                *
 *****************************************************************/
 
 
@@ -451,75 +451,6 @@ public class MainActivity extends Activity
         }
     }
 
-    // Runs the selected search algorithm
-    // Takes the button view as a parameter
-    // Returns nothing
-    public void nextTile(View view)
-    {
-        String searchType;
-        //searchType = searchSpinner.getSelectedItem().toString();
-        searchType = "BEST-FIRST";
-        switch (searchType)
-        {
-            case "DEPTH-FIRST":
-                if(deck.tileDeck.isEmpty() && board.tilePreview.getSymbol().equals(""))
-                {
-                    Toast.makeText(MainActivity.this, "OUT OF TILES", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    search.depthFirst(board, deck, computer);
-                    updateBoardView();
-                }
-                break;
-            case "BREADTH-FIRST":
-
-                if(deck.tileDeck.isEmpty() && board.tilePreview.getSymbol().equals(""))
-                {
-                    Toast.makeText(MainActivity.this, "OUT OF TILES", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    if(search.gmlNeeded)
-                    {
-                        search.unscoredMoveList.clear();
-                        search.genUnscoredMoveList(board);
-                        if(search.unscoredMoveList.size() > 0)
-                        {
-                            search.breadthFirst(board, deck, computer);
-                            updateBoardView();
-                        }
-                        //Toast.makeText(MainActivity.this, "OUT OF MOVES", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        if(search.unscoredMoveList.size() > 0)
-                        {
-                            search.breadthFirst(board, deck, computer);
-                            updateBoardView();
-                        }
-                        //Toast.makeText(MainActivity.this, "OUT OF MOVES", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                break;
-            case "BEST-FIRST":
-                if(deck.tileDeck.isEmpty() && board.tilePreview.getSymbol().equals(""))
-                {
-                    Toast.makeText(MainActivity.this, "OUT OF TILES", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    search.bestFirst(board, deck, computer);
-                    updateBoardView();
-                }
-                break;
-            case "BRANCH&BOUND":
-                //search.branchAndBound(board, deck, computer);
-                updateBoardView();
-                break;
-        }
-    }
-
     // Updates all visual elements
     // No parameters are passed
     // Nothing is returned
@@ -575,121 +506,6 @@ public class MainActivity extends Activity
         scoreKeepHuman.setText(scoreMsg);
         scoreMsg = "CURRENT TURN: " + board.currentPlayer;
         currentPlayer.setText(scoreMsg);
-    }
-
-    // Generates a random color and symbol for the tile that is to be placed
-    // or accepts the user selections from the drop-down menus
-    // A view object is passed, particularly from the Select Tile button
-    // Nothing is returned
-    // Deprecated for current project state
-    public void selectTile(View view)
-    {
-        // Check if a tile is already on standby
-        if(!(board.tilePreview.getColor() == "green" && board.tilePreview.getSymbol() == ""))
-        {
-            Toast.makeText(MainActivity.this, "You have already selected a tile, please place it before selecting another one", Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-            if(modeSelectSwitch.isChecked())
-            {
-                randTileMode = 1;
-            }
-            else if(!modeSelectSwitch.isChecked())
-            {
-                randTileMode = 0;
-            }
-
-            switch(randTileMode)
-            {
-                // Manual selection is <ON>
-                // Random generation is <OFF>
-                case 0:
-                    //tileSymbol = symbolSpinner.getSelectedItemPosition();
-                    //tileColor = colorSpinner.getSelectedItemPosition();
-
-                    switch (tileColor)
-                    {
-                        case 0: tileColorID = "white";
-                            break;
-                        case 1: tileColorID = "blue";
-                            break;
-                        case 2: tileColorID = "black";
-                            break;
-                        case 3: tileColorID = "yellow";
-                            break;
-                        case 4: tileColorID = "magenta";
-                            break;
-                        case 5: tileColorID = "red";
-                            break;
-                        default:
-                            break;
-                    }
-                    switch (tileSymbol)
-                    {
-                        case 0: tileSymbolID = "+";
-                            break;
-                        case 1: tileSymbolID = "#";
-                            break;
-                        case 2: tileSymbolID = "%";
-                            break;
-                        case 3: tileSymbolID = "!";
-                            break;
-                        case 4: tileSymbolID = "?";
-                            break;
-                        case 5: tileSymbolID = "@";
-                            break;
-                        default:
-                            break;
-                    }
-                    if(!deck.tileDeck.isEmpty())
-                    {
-                        tileFound = false;
-                        for(int i = 0; i < deck.tileDeck.size(); i++)
-                        {
-                            if(deck.tileDeck.get(i).getColor() == tileColorID
-                                    && deck.tileDeck.get(i).getSymbol() == tileSymbolID)
-                            {
-                                board.tilePreview.setColor(deck.tileDeck.get(i).getColor());
-                                board.tilePreview.setSymbol(deck.tileDeck.get(i).getSymbol());
-                                deck.tileDeck.remove(i);
-                                tileFound = true;
-                                break;
-                            }
-                        }
-                        if(!tileFound)
-                        {
-                            Toast.makeText(MainActivity.this, "No more tiles of this kind - please select another", Toast.LENGTH_SHORT).show();
-                            tileFound = false;
-                        }
-                    }
-                    else
-                    {
-                        Toast.makeText(MainActivity.this, "Good game! Try for a better score next time!", Toast.LENGTH_LONG).show();
-                    }
-                    break;
-
-                // Manual selection is <OFF>
-                // Random generation is <ON>
-                case 1:
-                    if(!deck.tileDeck.isEmpty())
-                    {
-                        int lastIndex = deck.tileDeck.size() - 1;
-                        board.tilePreview.setColor(deck.tileDeck.get(lastIndex).getColor());
-                        board.tilePreview.setSymbol(deck.tileDeck.get(lastIndex).getSymbol());
-                        deck.tileDeck.remove(lastIndex);
-                    }
-                    else
-                    {
-                        Toast.makeText(MainActivity.this, "Good game! Try for a better score next time!", Toast.LENGTH_LONG).show();
-                    }
-
-                    break;
-                default:
-                    break;
-            }
-        }
-        updateBoardView();
     }
 
     // Handles the user's actions on the UI

@@ -66,19 +66,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.42635658">
-              <caret line="706" column="13" selection-start-line="706" selection-start-column="13" selection-end-line="706" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="50" column="27" selection-start-line="50" selection-start-column="27" selection-end-line="50" selection-end-column="27" />
               <folding>
                 <element signature="e#0#396#0" expanded="true" />
-                <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#readData#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#parseData#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#aiTurn#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#nextTile#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#selectTile#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#loadData#0;class#MainActivity#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -88,13 +84,14 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Search.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="294" column="48" selection-start-line="294" selection-start-column="48" selection-end-line="294" selection-end-column="48" />
+              <caret line="121" column="40" selection-start-line="121" selection-start-column="40" selection-end-line="121" selection-end-column="40" />
               <folding>
-                <element signature="method#genUnscoredMoveList#0;class#Search#0" expanded="false" />
-                <element signature="method#genMoveList#0;class#Search#0" expanded="false" />
-                <element signature="method#depthFirst#0;class#Search#0" expanded="false" />
-                <element signature="method#breadthFirst#0;class#Search#0" expanded="false" />
-                <element signature="method#bestFirst#0;class#Search#0" expanded="false" />
+                <element signature="e#614#615#0" expanded="true" />
+                <element signature="e#679#680#0" expanded="true" />
+                <element signature="method#miniMax#0;class#Search#0" expanded="false" />
+                <element signature="method#alphaBeta#0;class#Search#0" expanded="false" />
+                <element signature="method#miniMaxWrapper#0;class#Search#0" expanded="false" />
+                <element signature="method#miniMaxHelp#0;class#Search#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -104,28 +101,28 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Node.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="76" column="9" selection-start-line="76" selection-start-column="9" selection-end-line="76" selection-end-column="9" />
+              <caret line="45" column="4" selection-start-line="45" selection-start-column="4" selection-end-line="47" selection-end-column="22" />
               <folding>
-                <element signature="e#2449#2450#0" expanded="true" />
-                <element signature="e#2482#2483#0" expanded="true" />
-                <element signature="e#2533#2534#0" expanded="true" />
-                <element signature="e#2572#2573#0" expanded="true" />
-                <element signature="e#2621#2622#0" expanded="true" />
-                <element signature="e#2668#2669#0" expanded="true" />
-                <element signature="e#2704#2705#0" expanded="true" />
-                <element signature="e#2735#2736#0" expanded="true" />
-                <element signature="e#2780#2781#0" expanded="true" />
-                <element signature="e#2821#2822#0" expanded="true" />
+                <element signature="e#2593#2594#0" expanded="true" />
+                <element signature="e#2626#2627#0" expanded="true" />
+                <element signature="e#2677#2678#0" expanded="true" />
+                <element signature="e#2716#2717#0" expanded="true" />
+                <element signature="e#2765#2766#0" expanded="true" />
+                <element signature="e#2812#2813#0" expanded="true" />
+                <element signature="e#2848#2849#0" expanded="true" />
+                <element signature="e#2879#2880#0" expanded="true" />
+                <element signature="e#2924#2925#0" expanded="true" />
+                <element signature="e#2965#2966#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Board.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Board.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="313" column="73" selection-start-line="312" selection-start-column="8" selection-end-line="313" selection-end-column="73" />
+            <state vertical-scroll-proportion="0.43333334">
+              <caret line="345" column="56" selection-start-line="345" selection-start-column="56" selection-end-line="345" selection-end-column="56" />
               <folding>
                 <element signature="method#Board#2;class#Board#0" expanded="false" />
                 <element signature="method#updateState#0;class#Board#0" expanded="false" />
@@ -1752,10 +1749,10 @@
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Deck.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Board.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Move.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Node.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Search.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Node.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Search.java" />
       </list>
     </option>
   </component>
@@ -2301,8 +2298,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1382" height="784" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48248407" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
@@ -2312,7 +2309,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" sideWeight="0.5030257" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13375796" sideWeight="0.4969743" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13375796" sideWeight="0.4969743" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -2356,7 +2353,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="29" />
+      <option name="time" value="30" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -2766,44 +2763,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Board.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="313" column="73" selection-start-line="312" selection-start-column="8" selection-end-line="313" selection-end-column="73" />
-          <folding>
-            <element signature="method#Board#2;class#Board#0" expanded="false" />
-            <element signature="method#updateState#0;class#Board#0" expanded="false" />
-            <element signature="method#isRightEmpty#0;class#Board#0" expanded="false" />
-            <element signature="method#isAboveEmpty#0;class#Board#0" expanded="false" />
-            <element signature="method#isBelowEmpty#0;class#Board#0" expanded="false" />
-            <element signature="method#checkLeftTile#0;class#Board#0" expanded="false" />
-            <element signature="method#checkRightTile#0;class#Board#0" expanded="false" />
-            <element signature="method#checkAboveTile#0;class#Board#0" expanded="false" />
-            <element signature="method#checkBelowTile#0;class#Board#0" expanded="false" />
-            <element signature="method#isMoveValid#0;class#Board#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="76" column="9" selection-start-line="76" selection-start-column="9" selection-end-line="76" selection-end-column="9" />
-          <folding>
-            <element signature="e#2449#2450#0" expanded="true" />
-            <element signature="e#2482#2483#0" expanded="true" />
-            <element signature="e#2533#2534#0" expanded="true" />
-            <element signature="e#2572#2573#0" expanded="true" />
-            <element signature="e#2621#2622#0" expanded="true" />
-            <element signature="e#2668#2669#0" expanded="true" />
-            <element signature="e#2704#2705#0" expanded="true" />
-            <element signature="e#2735#2736#0" expanded="true" />
-            <element signature="e#2780#2781#0" expanded="true" />
-            <element signature="e#2821#2822#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Move.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2823,32 +2782,67 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Search.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="294" column="48" selection-start-line="294" selection-start-column="48" selection-end-line="294" selection-end-column="48" />
+          <caret line="50" column="27" selection-start-line="50" selection-start-column="27" selection-end-line="50" selection-end-column="27" />
           <folding>
-            <element signature="method#genUnscoredMoveList#0;class#Search#0" expanded="false" />
-            <element signature="method#genMoveList#0;class#Search#0" expanded="false" />
-            <element signature="method#depthFirst#0;class#Search#0" expanded="false" />
-            <element signature="method#breadthFirst#0;class#Search#0" expanded="false" />
-            <element signature="method#bestFirst#0;class#Search#0" expanded="false" />
+            <element signature="e#0#396#0" expanded="true" />
+            <element signature="method#parseData#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#loadData#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Search.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42635658">
-          <caret line="706" column="13" selection-start-line="706" selection-start-column="13" selection-end-line="706" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="121" column="40" selection-start-line="121" selection-start-column="40" selection-end-line="121" selection-end-column="40" />
           <folding>
-            <element signature="e#0#396#0" expanded="true" />
-            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#readData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#parseData#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#aiTurn#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#nextTile#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#selectTile#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#614#615#0" expanded="true" />
+            <element signature="e#679#680#0" expanded="true" />
+            <element signature="method#miniMax#0;class#Search#0" expanded="false" />
+            <element signature="method#alphaBeta#0;class#Search#0" expanded="false" />
+            <element signature="method#miniMaxWrapper#0;class#Search#0" expanded="false" />
+            <element signature="method#miniMaxHelp#0;class#Search#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="45" column="4" selection-start-line="45" selection-start-column="4" selection-end-line="47" selection-end-column="22" />
+          <folding>
+            <element signature="e#2593#2594#0" expanded="true" />
+            <element signature="e#2626#2627#0" expanded="true" />
+            <element signature="e#2677#2678#0" expanded="true" />
+            <element signature="e#2716#2717#0" expanded="true" />
+            <element signature="e#2765#2766#0" expanded="true" />
+            <element signature="e#2812#2813#0" expanded="true" />
+            <element signature="e#2848#2849#0" expanded="true" />
+            <element signature="e#2879#2880#0" expanded="true" />
+            <element signature="e#2924#2925#0" expanded="true" />
+            <element signature="e#2965#2966#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/dmelniko/ishido/Board.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.43333334">
+          <caret line="345" column="56" selection-start-line="345" selection-start-column="56" selection-end-line="345" selection-end-column="56" />
+          <folding>
+            <element signature="method#Board#2;class#Board#0" expanded="false" />
+            <element signature="method#updateState#0;class#Board#0" expanded="false" />
+            <element signature="method#isRightEmpty#0;class#Board#0" expanded="false" />
+            <element signature="method#isAboveEmpty#0;class#Board#0" expanded="false" />
+            <element signature="method#isBelowEmpty#0;class#Board#0" expanded="false" />
+            <element signature="method#checkLeftTile#0;class#Board#0" expanded="false" />
+            <element signature="method#checkRightTile#0;class#Board#0" expanded="false" />
+            <element signature="method#checkAboveTile#0;class#Board#0" expanded="false" />
+            <element signature="method#checkBelowTile#0;class#Board#0" expanded="false" />
+            <element signature="method#isMoveValid#0;class#Board#0" expanded="false" />
           </folding>
         </state>
       </provider>

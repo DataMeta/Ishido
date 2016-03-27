@@ -1,14 +1,7 @@
 package edu.ramapo.dmelniko.ishido;
 
-import java.util.ArrayList;
-
 public class Search
 {
-    ArrayList<Move> unscoredMoveList = new ArrayList<>();
-    ArrayList<Move> moveList = new ArrayList<>();
-    int iter = 0;
-    Boolean gmlNeeded = true;
-
     int depth;
     int depthCutoff;
 
@@ -23,56 +16,25 @@ public class Search
         blinkCol = 0;
     }
 
+    // Sets the depth cutoff
+    // Accepts an integer for cutoff
+    // Returns nothing
     public void setDepthCutoff(int depthCutoff)
     {
         this.depthCutoff = depthCutoff;
     }
 
-    // Generates a list of moves without a score heuristic value
-    // Accepts a Board object
-    // Returns nothing
-    public void genUnscoredMoveList(Board board)
-    {
-        for (int i = 0; i < 8; i++)
-        {
-            for (int j = 0; j < 12; j++)
-            {
-                if(board.isMoveValid(i, j))
-                {
-                    Move Move = new Move(i, j);
-                    unscoredMoveList.add(Move);
-                }
-            }
-        }
-    }
-    // Generates a list of moves with a heuristic value attached
-    // Accepts a Board object
-    // Returns nothing
-    public void genMoveList(Board board)
-    {
-        int score;
-        for (int i = 0; i < 8; i++)
-        {
-            for (int j = 0; j < 12; j++)
-            {
-                if(board.isMoveValid(i, j))
-                {
-                    score = board.calcMovePointVal(i, j);
-                    Move Move = new Move(i, j, score);
-                    moveList.add(Move);
-                }
-            }
-        }
-    }
-    // Implement the Depth-First Search algorithm
-    // Accepts a Board, Deck, and Computer objects
-    // Returns nothing
-
+    // Calculates the heuristic function of a leaf node
+    // Accepts a Node object
+    // Returns an integer
     public int evaluate(Node node)
     {
         return node.getCompScore() - node.getHumanScore();
     }
 
+    // Determines the move with the minimum heuristic value
+    // Takes a Node object
+    // Returns the node with the best move saved
     public Node min(Node node)
     {
         Move bestMove = new Move();
@@ -88,6 +50,9 @@ public class Search
         return node;
     }
 
+    // Determines the move with the maximum heuristic value
+    // Takes a Node object
+    // Returns the node with the best move saved
     public Node max(Node node)
     {
         Move bestMove = new Move();
@@ -104,6 +69,8 @@ public class Search
     }
 
     // Implements the MiniMax algorithm
+    // Takes a Node object, Deck object, a String, and an integer depth
+    // Returns a node object
     public Node miniMax(Node parentNode, Deck deck, String turn, int depth)
     {
         if(depth == depthCutoff)
@@ -152,6 +119,9 @@ public class Search
         }
     }
 
+    // Implements the MiniMax w/ Alpha-Beta Pruning algorithm
+    // Takes a Node object, Deck object, a String, and an integer depth
+    // Returns a node object
     public Node alphaBeta(Node parentNode, Deck deck, String turn, int depth)
     {
         if(depth == depthCutoff)
@@ -240,6 +210,9 @@ public class Search
         }
     }
 
+    // Handler function for the Minimax and Minimax w/ Alpha-Beta Pruning algorithms
+    // Takes a Board object, two Player objects, a Deck object, and a Boolean
+    // Returns an integer, the point value of the move made
     public int miniMaxWrapper(Board board, Player human, Player computer, Deck deck, Boolean usePruning)
     {
         if (!usePruning)
@@ -272,6 +245,9 @@ public class Search
         return board.calcMovePointVal(moveRow, moveCol);
     }
 
+    // Player help version of the handler
+    // Takes a Board object, two Player objects, a Deck object, and a Boolean
+    // Returns nothing
     public void miniMaxHelp(Board board, Player human, Player computer, Deck deck, Boolean usePruning)
     {
         if (!usePruning)
@@ -297,121 +273,4 @@ public class Search
         lastMoveRow = moveRow;
         lastMoveCol = moveCol;
     }
-
-    public void depthFirst(Board board, Deck deck, Player computer)
-    {
-        int rowIndex, colIndex;
-        unscoredMoveList.clear();
-        genUnscoredMoveList(board);
-        if(unscoredMoveList.size() > 0)
-        {
-            rowIndex = unscoredMoveList.get(0).getRowIndex();
-            colIndex = unscoredMoveList.get(0).getColIndex();
-
-            board.makeMove(rowIndex, colIndex, deck);
-            computer.setScore(board.calcMovePointVal(rowIndex, colIndex));
-            board.tileBoard[rowIndex][colIndex].setBlinkable(true);
-            if (!deck.tileDeck.isEmpty())
-            {
-                deck.readyTile(board);
-            }
-        }
-
-    }
-
-    // Implement the Breadth-First Search algorithm
-    // Accepts a Board, Deck, and Computer objects
-    // Returns nothing
-    public void breadthFirst(Board board, Deck deck, Player computer)
-    {
-        int rowIndex, colIndex;
-
-        if(iter < unscoredMoveList.size())
-        {
-            if(iter > 0)
-            {
-                rowIndex = unscoredMoveList.get(iter - 1).getRowIndex();
-                colIndex = unscoredMoveList.get(iter - 1).getColIndex();
-                board.undoMove(rowIndex, colIndex);
-            }
-            rowIndex = unscoredMoveList.get(iter).getRowIndex();
-            colIndex = unscoredMoveList.get(iter).getColIndex();
-            board.simulateMove(rowIndex, colIndex);
-            iter++;
-            gmlNeeded = false;
-        }
-        else
-        {
-            rowIndex = unscoredMoveList.get(iter - 1).getRowIndex();
-            colIndex = unscoredMoveList.get(iter - 1).getColIndex();
-            board.undoMove(rowIndex, colIndex);
-
-            iter = 0;
-            rowIndex = unscoredMoveList.get(iter).getRowIndex();
-            colIndex = unscoredMoveList.get(iter).getColIndex();
-            board.makeMove(rowIndex, colIndex, deck);
-            board.tileBoard[rowIndex][colIndex].setBlinkable(true);
-            computer.setScore(board.calcMovePointVal(rowIndex, colIndex));
-            if (!deck.tileDeck.isEmpty())
-            {
-                deck.readyTile(board);
-            }
-            gmlNeeded = true;
-        }
-    }
-    // Implement the Best-First Search algorithm
-    // Accepts a Board, Deck, and Computer objects
-    // Returns nothing
-    public void bestFirst(Board board, Deck deck, Player computer)
-    {
-        int rowIndex, colIndex, score;
-        int bestScore = 0, bestMoveIndex = 0;
-
-        moveList.clear();
-        genMoveList(board);
-
-        if(moveList.size() > 0)
-        {
-            for (int i = 0; i < moveList.size(); i++)
-            {
-                score = moveList.get(i).getScore();
-                if (score > bestScore)
-                {
-                    bestScore = score;
-                    bestMoveIndex = i;
-                }
-            }
-            rowIndex = moveList.get(bestMoveIndex).getRowIndex();
-            colIndex = moveList.get(bestMoveIndex).getColIndex();
-            score = moveList.get(bestMoveIndex).getScore();
-
-            board.makeMove(rowIndex, colIndex, deck);
-            //board.tileBoard[rowIndex][colIndex].setBlinkable(true);
-            computer.setScore(score);
-            if (!deck.tileDeck.isEmpty())
-            {
-                deck.readyTile(board);
-            }
-        }
-    }
-
-    /*
-01 function minimax(node, depth, maximizingPlayer)
-02      if depth = 0 or node is a terminal node
-03           return the heuristic value of node
-
-04      if maximizingPlayer
-05           bestValue := −∞
-06           for each child of node
-07                 v := minimax(child, depth − 1, FALSE)
-08                 bestValue := max(bestValue, v)
-09           return bestValue
-
-10       else    (* minimizing player *)
-11           bestValue := +∞
-12           for each child of node
-13               v := minimax(child, depth − 1, TRUE)
-14               bestValue := min(bestValue, v)
-15           return bestValue
-*/
 }

@@ -68,6 +68,9 @@ public class Node
         }
     }
 
+    // Sets appropriate heuristic value for a child node for use in alpha-beta pruning
+    // Takes a parent node object
+    // Returns nothing
     public void setHeuristics(Node parentNode, String turn)
     {
         if(turn.equals("Human"))
