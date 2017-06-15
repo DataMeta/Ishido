@@ -1,2 +1,2 @@
 # Ishido
-# Lorem ispum etc.
+A game of japanese checkers for Android for testing game playing AI 
